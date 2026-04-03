@@ -36,6 +36,7 @@ export default function Footer() {
               {[
                 { href: "/", label: "Home" },
                 { href: "/about", label: "About BioEng4Youth" },
+                { href: "/research", label: "Research" },
                 { href: "/sponsors", label: "Sponsors" },
                 { href: "#interest-form", label: "Register Interest" },
               ].map((link) => (
