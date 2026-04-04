@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Bebas_Neue, Barlow_Semi_Condensed, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 
-// Display/headline — variable weight, editorial, distinctive. Not generic.
-const bricolage = Bricolage_Grotesque({
+// Display — tall condensed all-caps, high-impact hero moments (HackMIT-level energy)
+const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   variable: "--font-display",
+  weight: "400",
+});
+
+// Body/headings — slightly condensed grotesque, engineered, fast, legible at all sizes
+const barlowSemiCondensed = Barlow_Semi_Condensed({
+  subsets: ["latin"],
+  variable: "--font-sans",
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-// Body/UI — geometric, clean, highly legible at all sizes
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-// Mono — labels, eyebrows, data
-const jetbrainsMono = JetBrains_Mono({
+// Mono — retro digital terminal labels, eyebrows, data
+const shareTechMono = Share_Tech_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  weight: ["300", "400", "500"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${bebasNeue.variable} ${barlowSemiCondensed.variable} ${shareTechMono.variable}`}
     >
       <body className="antialiased">{children}</body>
     </html>
