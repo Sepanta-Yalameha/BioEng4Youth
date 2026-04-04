@@ -1,81 +1,36 @@
-# BioEng4Youth
-
-A React + Tailwind CSS website for BioEng4Youth, empowering the next generation of biomedical leaders.
-
-## Tech Stack
-
-- **React 18** with Vite
-- **Tailwind CSS** for styling
-- **React Router** for navigation
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js 16+ and npm
-
-### Installation
+First, run the development server:
 
 ```bash
-# Install dependencies
-npm install
-```
-
-### Development
-
-```bash
-# Start development server (runs on http://localhost:5173)
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### Build for Production
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-# Build optimized production bundle
-npm run build
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-# Preview production build locally
-npm run preview
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Project Structure
+## Learn More
 
-```
-BioEng4Youth/
-├── public/
-│   └── images/          # Static images and assets
-│       ├── icons/       # Feature icons (Research, Outreach, Innovation)
-│       └── favicon.png
-├── src/
-│   ├── components/      # Reusable UI components
-│   ├── pages/          # Page components
-│   ├── App.jsx         # Main app component with routing
-│   ├── main.jsx        # Application entry point
-│   └── index.css       # Global styles and Tailwind imports
-├── index.html          # HTML template
-├── tailwind.config.js  # Tailwind configuration (custom colors)
-└── vite.config.js      # Vite configuration
+To learn more about Next.js, take a look at the following resources:
 
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Pages
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- **Home** (`/`) - Hero, Features (Research, Outreach, Innovation), Donation Banner, Volunteers/Partners with Contact Form
-- **Programs** (`/programs`) - Bio-Innovators Lab, Medical Mentorship Circle, Global Biotech Outreach
-- **Research Hub** (`/research-hub`) - Search, filter chips, Featured Projects with progress bars, Recent Publications, Sidebar
-- **Get Involved** (`/get-involved`) - Hero, Volunteers/Partners, Testimonials carousel
+## Deploy on Vercel
 
-## Color Palette
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- **Navy:** `#0E1F40` (Header, footer, dark sections)
-- **Teal:** `#1D969C` (Buttons, accents, highlights)
-- **Text Primary:** `#333333`
-- **Text Muted:** `#6C757D`
-
-## Branding
-
-The organization name "BioEng4Youth" features the "4" in teal (`#1D969C`) throughout the site for brand recognition.
-
-## License
-
-All rights reserved © 2024 BioEng4Youth
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
