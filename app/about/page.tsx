@@ -1,39 +1,27 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Dna, Microscope, GraduationCap, Users } from "lucide-react";
+import { Microscope, Users, GraduationCap } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "About — BioEng4Youth at McMaster",
-  description: "Learn about BioEng4Youth, the student club behind McMaster Biohacks.",
+  title: "About — BioEng4Youth",
+  description: "The student club behind BioHacks at the University of Toronto.",
 };
 
 const teamMembers = [
-  { name: "Name TBD", role: "President", img: "https://placehold.co/300x300/135264/FFFFFF?text=BE4Y" },
-  { name: "Name TBD", role: "Vice President", img: "https://placehold.co/300x300/328795/FFFFFF?text=BE4Y" },
-  { name: "Name TBD", role: "Director of Events", img: "https://placehold.co/300x300/70B389/FFFFFF?text=BE4Y" },
-  { name: "Name TBD", role: "Director of Outreach", img: "https://placehold.co/300x300/135264/FFFFFF?text=BE4Y" },
-  { name: "Name TBD", role: "Director of Finance", img: "https://placehold.co/300x300/328795/FFFFFF?text=BE4Y" },
-  { name: "Name TBD", role: "Web Committee", img: "https://placehold.co/300x300/70B389/FFFFFF?text=BE4Y" },
+  { name: "Name TBD", role: "President" },
+  { name: "Name TBD", role: "Vice President" },
+  { name: "Name TBD", role: "Director of Events" },
+  { name: "Name TBD", role: "Director of Outreach" },
+  { name: "Name TBD", role: "Director of Finance" },
+  { name: "Name TBD", role: "Web Committee" },
 ];
 
 const values = [
-  {
-    icon: <Microscope size={22} />,
-    title: "Innovation",
-    desc: "Pushing the boundaries of what's possible at the intersection of biology and engineering.",
-  },
-  {
-    icon: <Users size={22} />,
-    title: "Inclusivity",
-    desc: "Welcoming everyone regardless of background, experience, or discipline.",
-  },
-  {
-    icon: <GraduationCap size={22} />,
-    title: "Education",
-    desc: "Building the next generation of bioengineers through hands-on learning and community.",
-  },
+  { icon: Microscope, label: "01", title: "Innovation", desc: "Pushing boundaries at the intersection of biology and engineering." },
+  { icon: Users, label: "02", title: "Inclusivity", desc: "Open to every discipline, background, and level of experience." },
+  { icon: GraduationCap, label: "03", title: "Education", desc: "Building the next generation of bioengineers through hands-on work." },
 ];
 
 export default function AboutPage() {
@@ -41,116 +29,139 @@ export default function AboutPage() {
     <main className="min-h-screen bg-white">
       <Navbar mode="club" />
 
-      {/* Hero */}
-      <section className="bg-brand-primary pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <Dna
-              key={i}
-              size={120}
-              className="absolute text-white"
-              style={{
-                top: `${(i * 23) % 100}%`,
-                left: `${(i * 17 + 5) % 100}%`,
-                opacity: 0.3,
-                transform: `rotate(${i * 45}deg)`,
-              }}
-            />
-          ))}
-        </div>
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-white/20">
-              <Image
-                src="/be4y-logo.png"
-                alt="BioEng4Youth"
-                width={80}
-                height={80}
-                className="w-full h-full object-cover"
-              />
+      {/* Hero — asymmetric, left-anchored */}
+      <section className="bg-[#0B1F26] pt-36 pb-24 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-end">
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
+                BioEng4Youth — University of Toronto
+              </p>
+              <h1
+                className="font-display font-bold text-white leading-[0.92] tracking-tight"
+                style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)" }}
+              >
+                Built by
+                <br />
+                <span style={{ color: "#70B389" }}>students,</span>
+                <br />
+                for students.
+              </h1>
+            </div>
+            <div className="lg:pb-3">
+              <p className="text-white/55 text-lg leading-relaxed max-w-md">
+                BioEng4Youth is a student-led club dedicated to making
+                bioengineering accessible, inspiring, and impactful at the
+                University of Toronto.
+              </p>
+              <div className="mt-10 flex items-center gap-6">
+                <div>
+                  <p className="font-display font-bold text-white text-4xl">100+</p>
+                  <p className="font-mono text-[10px] tracking-widest uppercase text-white/35 mt-1">Members</p>
+                </div>
+                <div className="w-px h-12 bg-white/10" />
+                <div>
+                  <p className="font-display font-bold text-white text-4xl">3+</p>
+                  <p className="font-mono text-[10px] tracking-widest uppercase text-white/35 mt-1">Events run</p>
+                </div>
+                <div className="w-px h-12 bg-white/10" />
+                <div>
+                  <p className="font-display font-bold text-white text-4xl">1st</p>
+                  <p className="font-mono text-[10px] tracking-widest uppercase text-white/35 mt-1">UofT BioHacks</p>
+                </div>
+              </div>
             </div>
           </div>
-          <h1 className="font-display font-bold text-white text-5xl sm:text-6xl tracking-tight leading-tight">
-            BioEng4Youth
-          </h1>
-          <p className="mt-5 text-white/60 text-xl max-w-2xl mx-auto leading-relaxed">
-            A student-led club at McMaster University dedicated to making
-            bioengineering accessible, inspiring, and impactful for the next generation.
-          </p>
         </div>
       </section>
 
-      {/* Story */}
-      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="grid md:grid-cols-2 gap-14 items-center">
-          <div>
-            <p className="text-brand-accent text-xs font-mono tracking-widest uppercase mb-4">
-              Our Story
-            </p>
-            <h2 className="font-display font-bold text-brand-text text-4xl leading-tight tracking-tight mb-5">
-              Who we are
-            </h2>
-            <p className="text-brand-text/60 leading-relaxed mb-4">
-              BioEng4Youth was founded by students at McMaster University with a
-              simple belief: bioengineering should be accessible to everyone.
-              We run workshops, events, and initiatives that bring together
-              curious minds across disciplines.
-            </p>
-            <p className="text-brand-text/60 leading-relaxed">
-              McMaster Biohacks is our biggest project yet — a hackathon that
-              embodies our mission to create community, spark innovation, and
-              empower the next generation of bioengineers.
-            </p>
-          </div>
-          <div className="bg-brand-primary/5 rounded-3xl p-8 border border-brand-primary/10">
-            <p className="text-brand-accent text-xs font-mono tracking-widest uppercase mb-5">
-              Our Values
-            </p>
-            <div className="space-y-5">
-              {values.map((v) => (
-                <div key={v.title} className="flex gap-4">
-                  <div className="w-9 h-9 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shrink-0">
-                    {v.icon}
+      {/* Story — zig-zag, not equal columns */}
+      <section className="py-24">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-0 lg:gap-0 items-stretch">
+            {/* Left */}
+            <div className="lg:pr-16 pb-16 lg:pb-0">
+              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">Our Story</p>
+              <h2
+                className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight mb-6"
+                style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+              >
+                Why we exist
+              </h2>
+              <p className="text-[#0B1F26]/60 text-base leading-loose mb-4">
+                BioEng4Youth was founded with a single belief: bioengineering
+                should be accessible to everyone. We run workshops, events, and
+                competitions that bring together curious minds across disciplines.
+              </p>
+              <p className="text-[#0B1F26]/60 text-base leading-loose">
+                BioHacks is our biggest project yet — a hackathon that embodies
+                our mission to spark innovation and empower the next generation.
+              </p>
+            </div>
+
+            {/* Divider */}
+            <div className="hidden lg:block bg-[#0B1F26]/8 mx-auto w-px" />
+
+            {/* Right — values as horizontal strips */}
+            <div className="lg:pl-16">
+              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">Our Values</p>
+              <div className="divide-y divide-[#0B1F26]/8">
+                {values.map(({ icon: Icon, label, title, desc }) => (
+                  <div key={title} className="flex items-start gap-5 py-6 first:pt-0">
+                    <span className="font-mono text-[10px] text-[#0B1F26]/25 tracking-widest mt-1 shrink-0 w-6">
+                      {label}
+                    </span>
+                    <div className="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg bg-[#0B1F26]/5 text-[#135264]">
+                      <Icon size={16} />
+                    </div>
+                    <div>
+                      <p className="font-display font-semibold text-[#0B1F26] text-base mb-1">{title}</p>
+                      <p className="text-[#0B1F26]/50 text-sm leading-relaxed">{desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-display font-semibold text-brand-text text-sm">{v.title}</p>
-                    <p className="text-brand-text/50 text-sm mt-0.5">{v.desc}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Team */}
-      <section className="py-20 bg-[#f7fafa]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-14">
-            <p className="text-brand-accent text-xs font-mono tracking-widest uppercase mb-3">
-              The Team
-            </p>
-            <h2 className="font-display font-bold text-brand-text text-4xl sm:text-5xl leading-tight tracking-tight">
-              Meet the crew
-            </h2>
-            <p className="mt-3 text-brand-text/50">Photos coming soon.</p>
+      <section className="py-24 bg-[#F6F9F8]">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-3">The Team</p>
+              <h2
+                className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight"
+                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+              >
+                The crew behind it all
+              </h2>
+            </div>
+            <p className="text-[#0B1F26]/40 text-sm font-mono">Photos coming soon.</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-[#0B1F26]/8 border border-[#0B1F26]/8">
             {teamMembers.map((member, i) => (
-              <div key={i} className="flex flex-col items-center gap-3 group">
-                <div className="w-full aspect-square rounded-2xl overflow-hidden ring-2 ring-transparent group-hover:ring-brand-accent transition-all">
+              <div
+                key={i}
+                className="bg-white p-6 flex flex-col items-center gap-4 group hover:bg-[#0B1F26] transition-colors duration-300"
+              >
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center bg-[#0B1F26]/5 group-hover:bg-white/10 transition-colors"
+                >
                   <Image
-                    src={member.img}
-                    alt={member.name}
-                    width={300}
-                    height={300}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all"
+                    src="/be4y-logo.png"
+                    alt={member.role}
+                    width={40}
+                    height={40}
+                    className="w-8 h-8 object-contain grayscale opacity-40 group-hover:opacity-60"
                   />
                 </div>
                 <div className="text-center">
-                  <p className="font-display font-semibold text-brand-text text-sm">{member.name}</p>
-                  <p className="text-brand-text/40 text-xs font-mono mt-0.5">{member.role}</p>
+                  <p className="font-display font-semibold text-[#0B1F26] group-hover:text-white text-sm transition-colors">{member.name}</p>
+                  <p className="font-mono text-[9px] tracking-widest uppercase text-[#0B1F26]/35 group-hover:text-white/40 mt-1 transition-colors">{member.role}</p>
                 </div>
               </div>
             ))}

@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { FlaskConical } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ResearchArticles from "@/components/research-articles";
 
 export const metadata: Metadata = {
-  title: "Research — BioEng4Youth at McMaster",
-  description:
-    "Explore biomedical engineering research, articles, and insights from the BioEng4Youth community at McMaster University.",
+  title: "Research — BioEng4Youth",
+  description: "Biomedical engineering research and insights from the BioEng4Youth community.",
 };
 
 export default function ResearchPage() {
@@ -16,38 +14,34 @@ export default function ResearchPage() {
       <Navbar mode="club" />
 
       {/* Hero */}
-      <section className="bg-brand-primary pt-32 pb-20 relative overflow-hidden">
-        {/* Decorative background icons */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <FlaskConical
-              key={i}
-              size={100}
-              className="absolute text-white"
-              style={{
-                top: `${(i * 23) % 100}%`,
-                left: `${(i * 17 + 5) % 100}%`,
-                opacity: 0.25,
-                transform: `rotate(${i * 45}deg)`,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-brand-accent text-xs font-mono tracking-widest uppercase mb-4">
-            Research &amp; Insights
-          </p>
-          <h1 className="font-display font-bold text-white text-5xl sm:text-6xl tracking-tight leading-tight">
-            Biomedical Engineering
-            <br />
-            Research
-          </h1>
-          <p className="mt-5 text-white/60 text-xl max-w-2xl mx-auto leading-relaxed">
-            Dive into the latest research, breakthroughs, and insights from
-            our team exploring the intersection of biology and engineering
-            at McMaster University.
-          </p>
+      <section className="bg-[#0B1F26] pt-36 pb-24">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-end">
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
+                Research &amp; Insights
+              </p>
+              <h1
+                className="font-display font-bold text-white leading-[0.92] tracking-tight"
+                style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)" }}
+              >
+                Biomedical
+                <br />
+                <span style={{ color: "#70B389" }}>Engineering</span>
+                <br />
+                Research
+              </h1>
+            </div>
+            <div className="lg:pb-2">
+              <p className="text-white/50 text-lg leading-relaxed max-w-md">
+                Articles and insights from our team exploring the intersection
+                of biology and engineering — written to inform and inspire.
+              </p>
+              <div className="mt-8 font-mono text-[10px] tracking-widest uppercase text-white/25">
+                9 articles &nbsp;·&nbsp; 7 topics
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

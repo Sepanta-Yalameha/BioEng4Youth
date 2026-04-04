@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, ArrowRight, Calendar, Tag } from "lucide-react";
+import { Search, ArrowRight, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const topics = [
@@ -93,127 +93,156 @@ export default function ResearchArticles() {
   const [activeTopic, setActiveTopic] = useState<Topic>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filtered = articles.filter((article) => {
-    const matchesTopic =
-      activeTopic === "All" || article.tags.includes(activeTopic);
+  const filtered = articles.filter((a) => {
+    const matchesTopic = activeTopic === "All" || a.tags.includes(activeTopic);
     const matchesSearch =
       searchQuery === "" ||
-      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      article.abstract.toLowerCase().includes(searchQuery.toLowerCase());
+      a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      a.abstract.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesTopic && matchesSearch;
   });
 
+  const [featured, ...rest] = filtered;
+
   return (
-    <>
-      {/* Filter / Search */}
-      <section className="py-12 border-b border-brand-primary/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          {/* Search bar */}
-          <div className="relative max-w-xl mx-auto mb-8">
-            <Search
-              size={18}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-text/30"
-            />
-            <input
-              type="text"
-              placeholder="Search articles by title or keyword…"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 rounded-full border border-brand-primary/15 bg-white text-brand-text text-sm placeholder:text-brand-text/30 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all"
-            />
-          </div>
+    <section className="py-20">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
 
-          {/* Topic tags */}
-          <div className="flex flex-wrap justify-center gap-2">
-            {topics.map((topic) => (
-              <button
-                key={topic}
-                onClick={() => setActiveTopic(topic)}
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all",
-                  activeTopic === topic
-                    ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
-                    : "bg-brand-primary/5 text-brand-text/60 hover:bg-brand-primary/10 hover:text-brand-text"
-                )}
-              >
-                {topic}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+        {/* Layout: left rail filters + right content */}
+        <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-16">
 
-      {/* Articles Grid */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="mb-10 flex items-center justify-between">
-            <p className="text-brand-text/40 text-sm font-mono">
-              {filtered.length} article{filtered.length !== 1 && "s"} found
-            </p>
-          </div>
-
-          {filtered.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-brand-text/40 text-lg">
-                No articles match your search.
-              </p>
-              <button
-                onClick={() => {
-                  setActiveTopic("All");
-                  setSearchQuery("");
-                }}
-                className="mt-4 text-brand-accent text-sm font-medium hover:underline"
-              >
-                Clear filters
-              </button>
+          {/* Left rail — filters */}
+          <aside className="mb-10 lg:mb-0">
+            {/* Search */}
+            <div className="relative mb-8">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#0B1F26]/30" />
+              <input
+                type="text"
+                placeholder="Search…"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-3 py-2.5 border border-[#0B1F26]/15 bg-white text-[#0B1F26] text-sm placeholder:text-[#0B1F26]/30 focus:outline-none focus:border-[#70B389]/60 transition-colors"
+              />
             </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((article) => (
-                <article
-                  key={article.title}
-                  className="group flex flex-col p-6 rounded-3xl border border-brand-primary/10 bg-white hover:border-brand-accent/30 hover:shadow-lg hover:shadow-brand-accent/5 hover:-translate-y-1 transition-all"
-                >
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {article.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-brand-primary/5 text-brand-secondary text-[11px] font-mono tracking-wide"
-                      >
-                        <Tag size={10} />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
 
-                  {/* Title */}
-                  <h3 className="font-display font-semibold text-brand-text text-lg leading-snug mb-3 group-hover:text-brand-primary transition-colors">
-                    {article.title}
-                  </h3>
-
-                  {/* Abstract */}
-                  <p className="text-brand-text/50 text-sm leading-relaxed flex-1 mb-5">
-                    {article.abstract}
-                  </p>
-
-                  {/* Footer */}
-                  <div className="flex items-center justify-between pt-4 border-t border-brand-primary/5">
-                    <span className="flex items-center gap-1.5 text-brand-text/35 text-xs font-mono">
-                      <Calendar size={12} />
-                      {article.date}
-                    </span>
-                    <button className="inline-flex items-center gap-1 text-brand-accent text-sm font-medium group-hover:gap-2 transition-all">
-                      Read More
-                      <ArrowRight size={14} />
-                    </button>
-                  </div>
-                </article>
+            {/* Topic list */}
+            <p className="font-mono text-[9px] tracking-[0.45em] uppercase text-[#0B1F26]/30 mb-4">Topics</p>
+            <ul className="space-y-1">
+              {topics.map((topic) => (
+                <li key={topic}>
+                  <button
+                    onClick={() => setActiveTopic(topic)}
+                    className={cn(
+                      "w-full text-left px-3 py-2 text-sm transition-colors",
+                      activeTopic === topic
+                        ? "bg-[#0B1F26] text-white font-semibold"
+                        : "text-[#0B1F26]/55 hover:text-[#0B1F26] hover:bg-[#0B1F26]/4"
+                    )}
+                  >
+                    {topic}
+                  </button>
+                </li>
               ))}
-            </div>
-          )}
+            </ul>
+
+            <p className="font-mono text-[9px] text-[#0B1F26]/25 mt-8">
+              {filtered.length} article{filtered.length !== 1 && "s"}
+            </p>
+          </aside>
+
+          {/* Right: articles */}
+          <div>
+            {filtered.length === 0 ? (
+              <div className="py-24 text-center">
+                <p className="text-[#0B1F26]/35 text-base mb-4">No articles match your search.</p>
+                <button
+                  onClick={() => { setActiveTopic("All"); setSearchQuery(""); }}
+                  className="text-[#70B389] text-sm font-medium hover:underline"
+                >
+                  Clear filters
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Featured — large editorial card */}
+                {featured && (
+                  <article className="mb-10 border-t-2 border-[#0B1F26] pt-6 group">
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                      {featured.tags.map((tag) => (
+                        <span key={tag} className="font-mono text-[9px] tracking-widest uppercase text-[#70B389] border border-[#70B389]/30 px-2 py-1">
+                          {tag}
+                        </span>
+                      ))}
+                      <span className="flex items-center gap-1.5 font-mono text-[9px] text-[#0B1F26]/30 ml-auto">
+                        <Calendar size={10} /> {featured.date}
+                      </span>
+                    </div>
+
+                    <h2
+                      className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight mb-4 group-hover:text-[#135264] transition-colors"
+                      style={{ fontSize: "clamp(1.6rem, 3vw, 2.25rem)" }}
+                    >
+                      {featured.title}
+                    </h2>
+
+                    <p className="text-[#0B1F26]/55 text-base leading-loose max-w-2xl mb-6">
+                      {featured.abstract}
+                    </p>
+
+                    <button className="inline-flex items-center gap-2 text-[#0B1F26] text-sm font-semibold border-b border-[#0B1F26]/30 pb-0.5 hover:border-[#0B1F26] transition-colors group-hover:gap-3">
+                      Read More <ArrowRight size={14} />
+                    </button>
+                  </article>
+                )}
+
+                {/* Divider */}
+                {rest.length > 0 && (
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="flex-1 h-px bg-[#0B1F26]/8" />
+                    <span className="font-mono text-[9px] tracking-widest uppercase text-[#0B1F26]/25">More Articles</span>
+                    <div className="flex-1 h-px bg-[#0B1F26]/8" />
+                  </div>
+                )}
+
+                {/* Rest — 2-col grid */}
+                <div className="grid sm:grid-cols-2 gap-px bg-[#0B1F26]/8 border border-[#0B1F26]/8">
+                  {rest.map((article) => (
+                    <article
+                      key={article.title}
+                      className="bg-white p-7 flex flex-col group hover:bg-[#F6F9F8] transition-colors"
+                    >
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {article.tags.map((tag) => (
+                          <span key={tag} className="font-mono text-[9px] tracking-widest uppercase text-[#0B1F26]/35 border border-[#0B1F26]/12 px-2 py-0.5">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <h3 className="font-display font-bold text-[#0B1F26] text-lg leading-snug mb-3 group-hover:text-[#135264] transition-colors flex-1">
+                        {article.title}
+                      </h3>
+
+                      <p className="text-[#0B1F26]/45 text-sm leading-relaxed mb-5 line-clamp-3">
+                        {article.abstract}
+                      </p>
+
+                      <div className="flex items-center justify-between border-t border-[#0B1F26]/6 pt-4">
+                        <span className="flex items-center gap-1.5 font-mono text-[9px] text-[#0B1F26]/30">
+                          <Calendar size={10} /> {article.date}
+                        </span>
+                        <button className="inline-flex items-center gap-1 text-[#70B389] text-sm font-medium group-hover:gap-2 transition-all">
+                          Read <ArrowRight size={13} />
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
