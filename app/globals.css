@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Scroll landing page variables */
+:root {
+  --void: #060810;
+  --neuro-teal: #00e5cc;
+  --neuro-violet: #a78bfa;
+  --ivory: #e8e4dc;
+}
+
+/* Scroll landing: lock body when on the landing page */
+body.scroll-locked {
+  overflow: hidden;
+}
+
+/* Scroll progress bar */
+#scroll-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 1.5px;
+  background: var(--neuro-teal);
+  z-index: 200;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
