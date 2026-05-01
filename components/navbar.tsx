@@ -23,6 +23,19 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const handleRegisterInterestClick = () => {
+    // Always dispatch — if the scroll experience is mounted (home page), it
+    // jumps the virtual scroll to the form phase. On other pages it's a no-op
+    // and the Link's href="/#form" handles cross-page navigation; once the
+    // home page mounts, the hook reads the hash and jumps to the form.
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("biohacks:jumpToPhase", { detail: "form" })
+      );
+    }
+    setMenuOpen(false);
+  };
+
   return (
     <>
       {/* Full-width floating pill */}
@@ -77,7 +90,8 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
           {/* Right — CTA + mobile toggle */}
           <div className="flex items-center gap-2 shrink-0">
             <Link
-              href="#interest-form"
+              href="/#form"
+              onClick={handleRegisterInterestClick}
               className="hidden md:block px-4 py-2 rounded-full bg-brand-accent text-brand-text text-sm font-semibold hover:brightness-110 active:scale-95 transition-all"
             >
               Register Interest
@@ -112,8 +126,8 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
             </Link>
           ))}
           <Link
-            href="#interest-form"
-            onClick={() => setMenuOpen(false)}
+            href="/#form"
+            onClick={handleRegisterInterestClick}
             className="mt-1 px-4 py-3 rounded-xl bg-brand-accent text-brand-text text-sm font-semibold text-center hover:brightness-110 transition-all"
           >
             Register Interest

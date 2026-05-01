@@ -55,6 +55,30 @@ export function useScrollAnimation() {
     };
   }, []);
 
+  // Jump-to-phase: triggered by hash on mount and by `biohacks:jumpToPhase` custom event.
+  // Used by the navbar "Register Interest" CTA to deep-link to the form phase.
+  useEffect(() => {
+    const SCROLL_MAX = window.innerHeight * 4;
+
+    const jumpToPhase = (phaseId: string) => {
+      const phase = PHASES.find((p) => p.id === phaseId);
+      if (!phase) return;
+      const targetProgress = (phase.start + phase.end) / 2;
+      virtualRef.current = targetProgress * SCROLL_MAX;
+      targetRef.current = targetProgress;
+    };
+
+    const initialHash = window.location.hash.replace("#", "");
+    if (initialHash) jumpToPhase(initialHash);
+
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (detail) jumpToPhase(detail);
+    };
+    window.addEventListener("biohacks:jumpToPhase", handler);
+    return () => window.removeEventListener("biohacks:jumpToPhase", handler);
+  }, []);
+
   // Lerp loop
   useEffect(() => {
     let raf: number;
