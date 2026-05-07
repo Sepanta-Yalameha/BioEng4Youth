@@ -107,8 +107,17 @@ body.scroll-locked {
   }
 }
 
-/* ── Ticker animation (used by the new TickerStrip and the existing
-       reduced-motion guard) ─────────────────────────────────────────────── */
+/* ── Ticker animation (used by the new TickerStrip) ──────────────────────
+       The keyframe is duplicated here from tailwind.config.ts because
+       Tailwind's JIT only emits `@keyframes <name>` when its corresponding
+       `animate-<name>` utility class is referenced in source. This file
+       references the keyframe by raw name (`animation: ticker ...`) without
+       the utility class, so the keyframe must be declared inline. ────── */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .ticker-content {
   display: inline-flex;
   animation: ticker 28s linear infinite;
