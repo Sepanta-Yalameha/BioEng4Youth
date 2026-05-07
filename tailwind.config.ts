@@ -11,18 +11,24 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", "sans-serif"],
-        display: ["var(--font-display)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       colors: {
-        brand: {
-          primary: "#135264",
-          accent: "#70B389",
-          text: "#0B303B",
-          secondary: "#328795",
-          bg: "#FFFFFF",
-        },
+        // ── Redesign tokens ────────────────────────────────────────────
+        paper: "var(--paper)",
+        "paper-2": "var(--paper-2)",
+        ink: "var(--ink)",
+        rule: "var(--rule)",
+        muted: "var(--muted)",
+        "muted-soft": "var(--muted-soft)",
+        "neuro-teal": "var(--neuro-teal)",
+        "neuro-teal-deep": "var(--neuro-teal-deep)",
+        void: "var(--void)",
+        ivory: "var(--ivory)",
+
+        // ── shadcn HSL tokens (kept; remapped in globals.css) ──────────
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -40,10 +46,6 @@ const config: Config = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
