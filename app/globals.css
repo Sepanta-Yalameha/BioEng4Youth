@@ -51,13 +51,13 @@ body.scroll-locked {
     --secondary-foreground: 222 36% 7%;
     --muted: 222 18% 96%;
     --muted-foreground: 222 12% 45%;
-    --accent: 173 100% 36%;          /* matches --neuro-teal-deep */
+    --accent: 172 100% 36%;          /* matches --neuro-teal-deep (#00b89e) */
     --accent-foreground: 222 36% 7%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 222 14% 91%;
     --input: 222 14% 91%;
-    --ring: 173 100% 36%;
+    --ring: 172 100% 36%;
     --radius: 0.5rem;
   }
 
