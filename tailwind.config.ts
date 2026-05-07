@@ -17,16 +17,20 @@ const config: Config = {
       },
       colors: {
         // ── Redesign tokens ────────────────────────────────────────────
-        paper: "var(--paper)",
-        "paper-2": "var(--paper-2)",
-        ink: "var(--ink)",
+        // Solid colors use the `<alpha-value>` placeholder so opacity
+        // modifiers (`bg-ink/85`, `ring-neuro-teal/50`, etc.) compose. The
+        // CSS vars in globals.css are stored as space-separated RGB triplets.
+        paper: "rgb(var(--paper) / <alpha-value>)",
+        "paper-2": "rgb(var(--paper-2) / <alpha-value>)",
+        ink: "rgb(var(--ink) / <alpha-value>)",
+        "neuro-teal": "rgb(var(--neuro-teal) / <alpha-value>)",
+        "neuro-teal-deep": "rgb(var(--neuro-teal-deep) / <alpha-value>)",
+        void: "rgb(var(--void) / <alpha-value>)",
+        ivory: "rgb(var(--ivory) / <alpha-value>)",
+        // Pre-mixed alpha tokens — used directly, no opacity modifier
         rule: "var(--rule)",
         muted: "var(--muted)",
         "muted-soft": "var(--muted-soft)",
-        "neuro-teal": "var(--neuro-teal)",
-        "neuro-teal-deep": "var(--neuro-teal-deep)",
-        void: "var(--void)",
-        ivory: "var(--ivory)",
 
         // ── shadcn HSL tokens (kept; remapped in globals.css) ──────────
         background: "hsl(var(--background))",

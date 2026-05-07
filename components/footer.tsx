@@ -18,7 +18,7 @@ export default function Footer() {
         className="h-px w-full"
         style={{
           background:
-            "linear-gradient(90deg, transparent, var(--neuro-teal), transparent)",
+            "linear-gradient(90deg, transparent, rgb(var(--neuro-teal)), transparent)",
         }}
       />
 

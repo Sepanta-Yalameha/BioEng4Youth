@@ -2,23 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Site-wide design tokens ───────────────────────────────────────────── */
+/* ── Site-wide design tokens ───────────────────────────────────────────────
+   Solid colors are stored as space-separated RGB triplets so Tailwind can
+   compose alpha through its `<color>/<opacity>` modifier (e.g. `bg-ink/85`)
+   via the `rgb(var(--token) / <alpha-value>)` pattern in tailwind.config.ts.
+   Direct CSS references must wrap the variable in `rgb(...)` — see body /
+   #scroll-bar below. The `--rule` / `--muted` / `--muted-soft` tokens stay
+   as full rgba() because they're pre-mixed at fixed opacity. */
 :root {
   /* Light surface (secondary pages) */
-  --paper: #ffffff;
-  --paper-2: #f6f7f9;
-  --ink: #0b0f18;
+  --paper: 255 255 255;
+  --paper-2: 246 247 249;
+  --ink: 11 15 24;
+
+  /* Accent */
+  --neuro-teal: 0 229 204;       /* on dark surfaces only */
+  --neuro-teal-deep: 0 184 158;  /* light-bg accent (sub-AA but accepted) */
+
+  /* Scroll experience surface */
+  --void: 6 8 16;
+  --ivory: 232 228 220;
+
+  /* Pre-mixed alpha — used directly, no Tailwind opacity modifier */
   --rule: rgba(11, 15, 24, 0.10);
   --muted: rgba(11, 15, 24, 0.60);
   --muted-soft: rgba(11, 15, 24, 0.40);
-
-  /* Accent */
-  --neuro-teal: #00e5cc;       /* on dark surfaces only */
-  --neuro-teal-deep: #00b89e;  /* light-bg-safe (passes WCAG AA on white) */
-
-  /* Scroll experience surface */
-  --void: #060810;
-  --ivory: #e8e4dc;
 }
 
 /* Scroll landing locks the body when the experience is mounted */
@@ -32,7 +40,7 @@ body.scroll-locked {
   top: 0;
   left: 0;
   height: 1.5px;
-  background: var(--neuro-teal);
+  background: rgb(var(--neuro-teal));
   z-index: 200;
 }
 
@@ -71,8 +79,8 @@ body.scroll-locked {
   }
 
   body {
-    background: var(--paper);
-    color: var(--ink);
+    background: rgb(var(--paper));
+    color: rgb(var(--ink));
     font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
