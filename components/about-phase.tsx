@@ -23,11 +23,11 @@ export default function AboutPhase() {
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2rem, 4vw, 2.8rem)",
             color: "#e8e4dc",
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.025em",
           }}
         >
           One case.{" "}
-          <span style={{ color: "#a78bfa" }}>Two streams.</span>
+          <span style={{ color: "#00e5cc" }}>Two streams.</span>
           <br />
           Unlimited impact.
         </h2>

@@ -5,7 +5,7 @@ export default function HeroPhase() {
         className="text-[10px] tracking-[0.5em] uppercase mb-8"
         style={{ fontFamily: "var(--font-mono)", color: "#00e5cc" }}
       >
-        BioEng4Youth &nbsp;&mdash;&nbsp; University of Toronto
+        BioEng4Youth &nbsp;&mdash;&nbsp; McMaster University
       </div>
 
       <h1
@@ -14,7 +14,7 @@ export default function HeroPhase() {
           fontFamily: "var(--font-display)",
           fontSize: "clamp(4rem, 13vw, 10rem)",
           color: "#e8e4dc",
-          letterSpacing: "-0.03em",
+          letterSpacing: "-0.045em",
         }}
       >
         Bio<span style={{ color: "#00e5cc" }}>Hacks</span>
@@ -40,7 +40,10 @@ export default function HeroPhase() {
         </div>
         <div
           className="w-px h-10"
-          style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.5), transparent)" }}
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(255,255,255,0.5), transparent)",
+          }}
         />
       </div>
     </div>

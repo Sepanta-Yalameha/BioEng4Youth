@@ -23,7 +23,7 @@ export default function DetailsPhase() {
               className="font-bold text-2xl"
               style={{ fontFamily: "var(--font-display)", color: "#e8e4dc" }}
             >
-              University of Toronto
+              McMaster University
             </span>
           </Row>
 
@@ -32,7 +32,7 @@ export default function DetailsPhase() {
               className="font-bold text-2xl"
               style={{ fontFamily: "var(--font-display)", color: "#e8e4dc" }}
             >
-              Coming Soon
+              Fall 2026
             </span>
           </Row>
 
