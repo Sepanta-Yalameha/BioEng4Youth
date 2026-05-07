@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
   Globe,
   Heart,
   Lightbulb,
   Users,
   Sparkles,
-  User,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import {
+  TickerStrip,
+  PageHero,
+  SectionHeader,
+  SectionDivider,
+} from "@/components/page-chassis";
 
 export const metadata: Metadata = {
   title: "About — BioEng4Youth",
@@ -59,15 +63,7 @@ const tier2 = [
 const departments = [
   {
     name: "Outreach",
-    members: [
-      "Nowshin",
-      "Jasleen",
-      "Shovan",
-      "Vaidik",
-      "Anisha",
-      "Tamishnah",
-      "Leen",
-    ],
+    members: ["Nowshin", "Jasleen", "Shovan", "Vaidik", "Anisha", "Tamishnah", "Leen"],
   },
   {
     name: "Socials",
@@ -79,111 +75,87 @@ const departments = [
   },
 ];
 
+const totalMembers =
+  tier1.length +
+  tier2.length +
+  departments.reduce((sum, d) => sum + d.members.length, 0);
+
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-paper">
       <Navbar mode="club" />
 
-      {/* ── Hero ── */}
-      <section className="bg-[#0B1F26] pt-36 pb-24 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-end">
-            <div>
-              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
-                About BioEng4Youth
-              </p>
-              <h1
-                className="font-display font-bold text-white leading-[0.92] tracking-tight"
-                style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)" }}
-              >
-                Empowering
-                <br />
-                <span style={{ color: "#70B389" }}>youth</span> through
-                <br />
-                science.
-              </h1>
-            </div>
-            <div className="lg:pb-3">
-              <p className="text-white/55 text-lg leading-relaxed max-w-md">
-                BioEng4Youth is a student-led, non-profit global organization
-                dedicated to empowering youth through accessible opportunities
-                in research, outreach, and innovation.
-              </p>
-              <p className="text-white/40 text-base leading-relaxed max-w-md mt-4">
-                We believe that students should have meaningful opportunities to
-                explore science, engage with healthcare challenges, and
-                contribute to conversations that shape the future of research
-                and medicine.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="pt-20">
+        <TickerStrip
+          items={[
+            { text: "BioHacks · Fall 2026" },
+            { text: "McMaster University" },
+            { text: "One neuro case" },
+            { text: "Infinite solutions" },
+          ]}
+        />
+      </div>
 
-      {/* ── Mission & Vision ── */}
-      <section className="py-24">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-0 items-stretch">
-            <div className="lg:pr-16 pb-16 lg:pb-0">
-              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
-                Our Mission
-              </p>
-              <h2
-                className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight mb-6"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-              >
-                Why we exist
-              </h2>
-              <p className="text-[#0B1F26]/60 text-base leading-loose">
-                Our mission is to make biomedical, engineering, and
-                health-related opportunities more accessible to youth by
-                creating programs that promote research engagement, scientific
-                curiosity, critical thinking, and innovation. Through events,
-                competitions, and outreach, we aim to support students as they
-                develop the knowledge and confidence to contribute meaningfully
-                to science and healthcare.
-              </p>
-            </div>
-
-            <div className="hidden lg:block bg-[#0B1F26]/8 mx-auto w-px" />
-
-            <div className="lg:pl-16">
-              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
-                Our Vision
-              </p>
-              <h2
-                className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight mb-6"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-              >
-                Where we&apos;re headed
-              </h2>
-              <p className="text-[#0B1F26]/60 text-base leading-loose">
-                We envision a future in which young people are empowered to
-                participate actively in research, innovation, and
-                community-driven scientific problem solving. We want to help
-                build a generation of students who are not only informed about
-                global health challenges but also inspired to help solve them.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── What We Do ── */}
-      <section className="py-24 bg-[#F6F9F8]">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
-            What We Do
-          </p>
-          <h2
-            className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight mb-8"
-            style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-          >
-            Real-world impact,
+      <PageHero
+        eyebrow="01 / About BioEng4Youth"
+        headline={
+          <>
+            Empowering youth
             <br />
-            student-driven.
-          </h2>
-          <p className="text-[#0B1F26]/60 text-lg leading-relaxed max-w-3xl">
+            through{" "}
+            <span className="text-neuro-teal-deep">science</span>.
+          </>
+        }
+        lede="A student-led nonprofit creating accessible opportunities in research, outreach, and innovation. We run programs, competitions, and outreach that help students engage with real-world health and engineering challenges."
+        stats={[
+          { label: "Founded", value: "2025" },
+          { label: "Members", value: String(totalMembers) },
+          { label: "Type", value: "Student-led nonprofit" },
+        ]}
+        primaryCta={{ label: "Get Involved", href: "mailto:bioengineeringformcmaster@gmail.com" }}
+        secondaryCta={{ label: "Read mission", href: "#mission" }}
+      />
+
+      <SectionDivider />
+
+      {/* 02 — Mission */}
+      <section id="mission" className="bg-paper">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
+          <SectionHeader index="02" title="Our mission" />
+          <p className="text-[15px] leading-[1.8] text-muted max-w-3xl">
+            Our mission is to make biomedical, engineering, and health-related
+            opportunities more accessible to youth by creating programs that
+            promote research engagement, scientific curiosity, critical
+            thinking, and innovation. Through events, competitions, and
+            outreach, we support students as they develop the knowledge and
+            confidence to contribute meaningfully to science and healthcare.
+          </p>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* 03 — Vision */}
+      <section className="bg-paper-2">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
+          <SectionHeader index="03" title="Our vision" />
+          <p className="text-[15px] leading-[1.8] text-muted max-w-3xl">
+            We envision a future in which young people are empowered to
+            participate actively in research, innovation, and community-driven
+            scientific problem solving. We want to help build a generation of
+            students who are not only informed about global health challenges
+            but also inspired to help solve them.
+          </p>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* 04 — What we do */}
+      <section className="bg-paper">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
+          <SectionHeader index="04" title="What we do" />
+          <p className="text-[15px] leading-[1.8] text-muted max-w-3xl">
             At BioEng4Youth, we develop initiatives that encourage students to
             engage with real-world scientific and healthcare issues. Our work
             includes competitions, educational opportunities, and outreach
@@ -194,133 +166,69 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Our Values ── */}
-      <section className="py-24">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <div className="text-center mb-16">
-            <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-3">
-              Our Values
-            </p>
-            <h2
-              className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-            >
-              What drives us
-            </h2>
-          </div>
+      <SectionDivider />
 
-          <div className="flex flex-wrap justify-center gap-6">
+      {/* 05 — Values */}
+      <section className="bg-paper">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
+          <SectionHeader index="05" title="What drives us" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-rule border border-rule">
             {values.map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] p-8 border border-[#0B1F26]/8 group hover:border-[#70B389]/30 hover:bg-[#70B389]/[0.03] transition-all duration-300"
+                className="bg-paper p-7 group hover:bg-paper-2 transition-colors"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#0B1F26]/5 flex items-center justify-center text-[#135264] group-hover:bg-[#70B389] group-hover:text-white transition-all duration-300 mb-5">
-                  <Icon size={20} />
+                <div className="w-9 h-9 bg-neuro-teal-deep/15 text-neuro-teal-deep flex items-center justify-center mb-4 rounded-sm group-hover:bg-neuro-teal-deep group-hover:text-paper transition-colors">
+                  <Icon size={18} />
                 </div>
-                <p className="font-display font-bold text-[#0B1F26] text-lg mb-2">
+                <p className="font-display font-bold text-ink text-lg mb-1.5">
                   {title}
                 </p>
-                <p className="text-[#0B1F26]/50 text-sm leading-relaxed">
-                  {desc}
-                </p>
+                <p className="text-[13px] leading-relaxed text-muted">{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Our Team ── */}
-      <section className="py-24 bg-[#F6F9F8]">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <div className="text-center mb-16">
-            <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-3">
-              Our Team
-            </p>
-            <h2
-              className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight mb-6"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-            >
-              The people behind it all
-            </h2>
-            <p className="text-[#0B1F26]/50 text-base leading-relaxed max-w-2xl mx-auto">
-              Meet the team behind BioEng4Youth. We are a group of student
-              leaders and contributors who are passionate about research
-              accessibility, science communication, youth empowerment, and
-              innovation in healthcare. Together, we work to create
-              opportunities that help students explore meaningful scientific
-              topics and engage with real-world challenges.
-            </p>
-          </div>
+      <SectionDivider />
+
+      {/* 06 — Team */}
+      <section className="bg-paper-2">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
+          <SectionHeader index="06" title="The team" />
+          <p className="text-[15px] leading-[1.7] text-muted max-w-2xl mb-14">
+            A group of student leaders and contributors passionate about
+            research accessibility, science communication, youth empowerment,
+            and innovation in healthcare.
+          </p>
 
           {/* Tier 1 — Co-Presidents */}
-          <div className="flex justify-center gap-8 sm:gap-12 mb-12">
-            {tier1.map((member) => (
-              <div key={member.name} className="flex flex-col items-center">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#70B389]/20 to-[#135264]/20 border-2 border-[#70B389]/30 flex items-center justify-center mb-4">
-                  <User
-                    size={36}
-                    className="text-[#0B1F26]/30"
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <p className="font-display font-bold text-[#0B1F26] text-lg sm:text-xl">
-                  {member.name}
-                </p>
-                <p className="font-mono text-[10px] tracking-widest uppercase text-[#70B389] mt-1">
-                  {member.role}
-                </p>
-              </div>
+          <div className="flex justify-center gap-12 mb-12">
+            {tier1.map((m) => (
+              <TeamCard key={m.name} name={m.name} role={m.role} size="lg" />
             ))}
           </div>
 
-          {/* Tier 2 — Directors & Coordinator */}
-          <div className="flex justify-center flex-wrap gap-8 sm:gap-10 mb-16">
-            {tier2.map((member) => (
-              <div key={member.name} className="flex flex-col items-center">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#0B1F26]/5 border border-[#0B1F26]/10 flex items-center justify-center mb-3">
-                  <User
-                    size={28}
-                    className="text-[#0B1F26]/25"
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <p className="font-display font-semibold text-[#0B1F26] text-base sm:text-lg">
-                  {member.name}
-                </p>
-                <p className="font-mono text-[9px] tracking-widest uppercase text-[#0B1F26]/40 mt-1 text-center max-w-[160px]">
-                  {member.role}
-                </p>
-              </div>
+          {/* Tier 2 — Directors */}
+          <div className="flex justify-center flex-wrap gap-10 mb-16">
+            {tier2.map((m) => (
+              <TeamCard key={m.name} name={m.name} role={m.role} size="md" />
             ))}
           </div>
 
-          <div className="w-full h-px bg-[#0B1F26]/8 mb-16" />
+          <div className="h-px w-full bg-rule mb-14" />
 
           {/* Tier 3 — Departments */}
           <div className="grid md:grid-cols-3 gap-12">
             {departments.map((dept) => (
               <div key={dept.name}>
-                <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6 text-center">
+                <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-neuro-teal-deep mb-6 text-center">
                   {dept.name}
                 </p>
-                <div className="flex flex-wrap justify-center gap-x-6 gap-y-8">
+                <div className="flex flex-wrap justify-center gap-x-6 gap-y-7">
                   {dept.members.map((name) => (
-                    <div
-                      key={name}
-                      className="flex flex-col items-center w-[72px]"
-                    >
-                      <div className="w-14 h-14 rounded-full bg-[#0B1F26]/5 flex items-center justify-center mb-2">
-                        <User
-                          size={20}
-                          className="text-[#0B1F26]/20"
-                          strokeWidth={1.5}
-                        />
-                      </div>
-                      <p className="font-display font-semibold text-[#0B1F26] text-sm text-center leading-tight">
-                        {name}
-                      </p>
-                    </div>
+                    <TeamCard key={name} name={name} size="sm" />
                   ))}
                 </div>
               </div>
@@ -329,59 +237,87 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Closing — What Our Team Does & Join ── */}
-      <section className="bg-[#0B1F26] py-24">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
-            <div>
-              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
-                What Our Team Does
-              </p>
-              <h2
-                className="font-display font-bold text-white leading-tight tracking-tight mb-6"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-              >
-                Working together
-                <br />
-                for impact.
-              </h2>
-              <p className="text-white/50 text-base leading-relaxed">
-                Our team works across events, outreach, communications, and
-                research-focused programming to support the mission of
-                BioEng4Youth. Each member contributes to creating a community
-                where youth can access opportunities, develop skills, and take
-                part in meaningful scientific exploration.
-              </p>
-            </div>
+      {/* 07 — Closing dark band */}
+      <section className="bg-ink text-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20 grid lg:grid-cols-2 gap-16">
+          <div>
+            <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-neuro-teal mb-5">
+              What our team does
+            </p>
+            <h3
+              className="font-display font-bold text-white leading-tight tracking-[-0.02em] mb-6"
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+            >
+              Working together for impact.
+            </h3>
+            <p className="text-white/55 text-[15px] leading-relaxed">
+              Our team works across events, outreach, communications, and
+              research-focused programming to support the mission of
+              BioEng4Youth.
+            </p>
+          </div>
 
-            <div>
-              <p className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#70B389] mb-6">
-                Join Our Team
-              </p>
-              <h2
-                className="font-display font-bold text-white leading-tight tracking-tight mb-6"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-              >
-                Get involved.
-              </h2>
-              <p className="text-white/50 text-base leading-relaxed mb-8">
-                We are always excited to connect with students who are
-                passionate about science, research, leadership, outreach, and
-                innovation. If you are interested in contributing to
-                BioEng4Youth, we would love to hear from you.
-              </p>
-              <Link
-                href="mailto:bioengineeringformcmaster@gmail.com"
-                className="inline-block px-6 py-3 bg-[#70B389] text-[#0B1F26] font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all"
-              >
-                Get in Touch →
-              </Link>
-            </div>
+          <div>
+            <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-neuro-teal mb-5">
+              Join our team
+            </p>
+            <h3
+              className="font-display font-bold text-white leading-tight tracking-[-0.02em] mb-6"
+              style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
+            >
+              Get involved.
+            </h3>
+            <p className="text-white/55 text-[15px] leading-relaxed mb-8">
+              Always excited to connect with students passionate about science,
+              research, leadership, outreach, and innovation. If you&apos;re
+              interested in contributing, we&apos;d love to hear from you.
+            </p>
+            <a
+              href="mailto:bioengineeringformcmaster@gmail.com"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-neuro-teal text-ink font-display font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all rounded-md"
+            >
+              Get in touch →
+            </a>
           </div>
         </div>
       </section>
 
       <Footer />
     </main>
+  );
+}
+
+function TeamCard({
+  name,
+  role,
+  size = "sm",
+}: {
+  name: string;
+  role?: string;
+  size?: "lg" | "md" | "sm";
+}) {
+  const dims =
+    size === "lg"
+      ? "w-24 h-24 sm:w-28 sm:h-28 text-3xl"
+      : size === "md"
+      ? "w-20 h-20 sm:w-24 sm:h-24 text-2xl"
+      : "w-14 h-14 text-lg";
+  const initial = name.charAt(0);
+  return (
+    <div className="flex flex-col items-center max-w-[120px]">
+      <div
+        className={`${dims} bg-neuro-teal-deep/15 text-neuro-teal-deep font-display font-bold flex items-center justify-center rounded-md mb-3`}
+      >
+        {initial}
+      </div>
+      <p className="font-display font-semibold text-ink text-base leading-tight text-center">
+        {name}
+      </p>
+      {role && (
+        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-muted-soft mt-1 text-center max-w-[160px]">
+          {role}
+        </p>
+      )}
+    </div>
   );
 }
