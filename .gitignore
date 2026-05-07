@@ -37,3 +37,6 @@ next-env.d.ts
 
 # screenshot.mjs output (regenerable)
 /temporary screenshots/
+
+# brainstorming visual companion mockups (regenerable)
+/.superpowers/
