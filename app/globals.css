@@ -2,20 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Scroll landing page variables */
+/* ── Site-wide design tokens ───────────────────────────────────────────── */
 :root {
+  /* Light surface (secondary pages) */
+  --paper: #ffffff;
+  --paper-2: #f6f7f9;
+  --ink: #0b0f18;
+  --rule: rgba(11, 15, 24, 0.10);
+  --muted: rgba(11, 15, 24, 0.60);
+  --muted-soft: rgba(11, 15, 24, 0.40);
+
+  /* Accent */
+  --neuro-teal: #00e5cc;       /* on dark surfaces only */
+  --neuro-teal-deep: #00b89e;  /* light-bg-safe (passes WCAG AA on white) */
+
+  /* Scroll experience surface */
   --void: #060810;
-  --neuro-teal: #00e5cc;
-  --neuro-violet: #a78bfa;
   --ivory: #e8e4dc;
 }
 
-/* Scroll landing: lock body when on the landing page */
+/* Scroll landing locks the body when the experience is mounted */
 body.scroll-locked {
   overflow: hidden;
 }
 
-/* Scroll progress bar */
+/* Scroll progress bar (managed inline by ScrollExperience) */
 #scroll-bar {
   position: fixed;
   top: 0;
@@ -25,28 +36,29 @@ body.scroll-locked {
   z-index: 200;
 }
 
+/* shadcn/ui HSL tokens — kept but re-mapped to the new palette */
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 194 68% 14%;
+    --foreground: 222 36% 7%;        /* matches --ink */
     --card: 0 0% 100%;
-    --card-foreground: 194 68% 14%;
+    --card-foreground: 222 36% 7%;
     --popover: 0 0% 100%;
-    --popover-foreground: 194 68% 14%;
-    --primary: 193 68% 23%;
+    --popover-foreground: 222 36% 7%;
+    --primary: 222 36% 7%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 189 50% 39%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 193 20% 95%;
-    --muted-foreground: 193 30% 45%;
-    --accent: 142 31% 57%;
-    --accent-foreground: 194 68% 14%;
+    --secondary: 222 18% 96%;
+    --secondary-foreground: 222 36% 7%;
+    --muted: 222 18% 96%;
+    --muted-foreground: 222 12% 45%;
+    --accent: 173 100% 36%;          /* matches --neuro-teal-deep */
+    --accent-foreground: 222 36% 7%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 193 20% 88%;
-    --input: 193 20% 88%;
-    --ring: 193 68% 23%;
-    --radius: 0.625rem;
+    --border: 222 14% 91%;
+    --input: 222 14% 91%;
+    --ring: 173 100% 36%;
+    --radius: 0.5rem;
   }
 
   * {
@@ -59,29 +71,27 @@ body.scroll-locked {
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans), sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), sans-serif;
-    letter-spacing: 0.02em;
+    font-family: var(--font-display), system-ui, sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
+/* ── Utilities ─────────────────────────────────────────────────────────── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
 
-  .font-display {
-    font-family: var(--font-display), sans-serif;
-  }
+  .font-display { font-family: var(--font-display), system-ui, sans-serif; }
+  .font-mono-brand { font-family: var(--font-mono), ui-monospace, monospace; }
 
-  .font-mono-brand {
-    font-family: var(--font-mono), monospace;
-  }
-
+  /* Used by the scroll-page phase overlays — kept intact */
   .glass {
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(14px);
@@ -90,14 +100,15 @@ body.scroll-locked {
   }
 
   .glass-dark {
-    background: rgba(11, 48, 59, 0.55);
+    background: rgba(4, 5, 14, 0.92);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
 }
 
-/* Ticker animation with reduced-motion support */
+/* ── Ticker animation (used by the new TickerStrip and the existing
+       reduced-motion guard) ─────────────────────────────────────────────── */
 .ticker-content {
   display: inline-flex;
   animation: ticker 28s linear infinite;
@@ -108,7 +119,6 @@ body.scroll-locked {
     animation: none;
   }
 
-  /* Disable all transitions and animations globally */
   *,
   *::before,
   *::after {
