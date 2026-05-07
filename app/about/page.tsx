@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   Globe,
   Heart,
@@ -49,29 +50,48 @@ const values = [
   },
 ];
 
-const tier1 = [
+type Member = { name: string; role?: string; photo?: string };
+
+const tier1: Member[] = [
   { name: "Jiya", role: "Co-President" },
   { name: "Ahyan", role: "Co-President" },
 ];
 
-const tier2 = [
+const tier2: Member[] = [
   { name: "Krish", role: "Director of Operations" },
   { name: "Sepanta", role: "Director of Operations" },
-  { name: "Avishi", role: "Chapter Coordinator" },
+  { name: "Avishi", role: "Chapter Coordinator", photo: "/team/Avishi.JPG" },
 ];
 
-const departments = [
+const departments: { name: string; members: Member[] }[] = [
   {
     name: "Outreach",
-    members: ["Nowshin", "Jasleen", "Shovan", "Vaidik", "Anisha", "Tamishnah", "Leen"],
+    members: [
+      { name: "Nowshin", photo: "/team/Nowshin.jpeg" },
+      { name: "Jasleen", photo: "/team/Jasleen.JPG" },
+      { name: "Shovan", photo: "/team/Shovan.jpeg" },
+      { name: "Vaidik", photo: "/team/Vaidik.jpeg" },
+      { name: "Anisha", photo: "/team/Anisha.jpeg" },
+      { name: "Tamishnah", photo: "/team/Tamishnah.jpeg" },
+    ],
   },
   {
     name: "Socials",
-    members: ["Priyansi", "Pratistha", "Mahek", "Smera", "Vee", "Diya"],
+    members: [
+      { name: "Priyansi", photo: "/team/Priyansi.JPG" },
+      { name: "Pratishtha", photo: "/team/Pratishtha.jpeg" },
+      { name: "Mahek", photo: "/team/Mahek.JPG" },
+      { name: "Vee" },
+      { name: "Diya", photo: "/team/Diya.JPG" },
+    ],
   },
   {
     name: "Research",
-    members: ["Shamim", "Ella", "Olivia", "Sumiran"],
+    members: [
+      { name: "Shamim", photo: "/team/Shamim.JPG" },
+      { name: "Ella", photo: "/team/Ella.jpeg" },
+      { name: "Olivia", photo: "/team/Olivia.png" },
+    ],
   },
 ];
 
@@ -112,7 +132,7 @@ export default function AboutPage() {
           { label: "Members", value: String(totalMembers) },
           { label: "Type", value: "Student-led nonprofit" },
         ]}
-        primaryCta={{ label: "Get Involved", href: "mailto:bioengineeringformcmaster@gmail.com" }}
+        primaryCta={{ label: "Get Involved", href: "mailto:bioeng4youth@gmail.com" }}
         secondaryCta={{ label: "Read mission", href: "#mission" }}
       />
 
@@ -206,14 +226,26 @@ export default function AboutPage() {
           {/* Tier 1 — Co-Presidents */}
           <div className="flex justify-center gap-12 mb-12">
             {tier1.map((m) => (
-              <TeamCard key={m.name} name={m.name} role={m.role} size="lg" />
+              <TeamCard
+                key={m.name}
+                name={m.name}
+                role={m.role}
+                photo={m.photo}
+                size="lg"
+              />
             ))}
           </div>
 
           {/* Tier 2 — Directors */}
           <div className="flex justify-center flex-wrap gap-10 mb-16">
             {tier2.map((m) => (
-              <TeamCard key={m.name} name={m.name} role={m.role} size="md" />
+              <TeamCard
+                key={m.name}
+                name={m.name}
+                role={m.role}
+                photo={m.photo}
+                size="md"
+              />
             ))}
           </div>
 
@@ -227,8 +259,13 @@ export default function AboutPage() {
                   {dept.name}
                 </p>
                 <div className="flex flex-wrap justify-center gap-x-6 gap-y-7">
-                  {dept.members.map((name) => (
-                    <TeamCard key={name} name={name} size="sm" />
+                  {dept.members.map((m) => (
+                    <TeamCard
+                      key={m.name}
+                      name={m.name}
+                      photo={m.photo}
+                      size="sm"
+                    />
                   ))}
                 </div>
               </div>
@@ -273,7 +310,7 @@ export default function AboutPage() {
               interested in contributing, we&apos;d love to hear from you.
             </p>
             <a
-              href="mailto:bioengineeringformcmaster@gmail.com"
+              href="mailto:bioeng4youth@gmail.com"
               className="inline-flex items-center gap-2 px-6 py-3 bg-neuro-teal text-ink font-display font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all rounded-md"
             >
               Get in touch →
@@ -290,10 +327,12 @@ export default function AboutPage() {
 function TeamCard({
   name,
   role,
+  photo,
   size = "sm",
 }: {
   name: string;
   role?: string;
+  photo?: string;
   size?: "lg" | "md" | "sm";
 }) {
   const dims =
@@ -302,14 +341,29 @@ function TeamCard({
       : size === "md"
       ? "w-20 h-20 sm:w-24 sm:h-24 text-2xl"
       : "w-14 h-14 text-lg";
+  const pixelSize = size === "lg" ? 112 : size === "md" ? 96 : 56;
   const initial = name.charAt(0);
   return (
     <div className="flex flex-col items-center max-w-[120px]">
-      <div
-        className={`${dims} bg-neuro-teal-deep/15 text-neuro-teal-deep font-display font-bold flex items-center justify-center rounded-md mb-3`}
-      >
-        {initial}
-      </div>
+      {photo ? (
+        <div
+          className={`${dims} relative overflow-hidden rounded-md mb-3 ring-1 ring-rule`}
+        >
+          <Image
+            src={photo}
+            alt={name}
+            width={pixelSize}
+            height={pixelSize}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ) : (
+        <div
+          className={`${dims} bg-neuro-teal-deep/15 text-neuro-teal-deep font-display font-bold flex items-center justify-center rounded-md mb-3`}
+        >
+          {initial}
+        </div>
+      )}
       <p className="font-display font-semibold text-ink text-base leading-tight text-center">
         {name}
       </p>

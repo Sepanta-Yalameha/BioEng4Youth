@@ -49,11 +49,11 @@ export default function Footer() {
               McMaster&apos;s bioengineering hackathon. Where science meets engineering.
             </p>
             <a
-              href="mailto:bioengineeringformcmaster@gmail.com"
+              href="mailto:bioeng4youth@gmail.com"
               className="inline-flex items-center gap-2 mt-6 text-neuro-teal text-sm font-medium hover:text-white transition-colors"
             >
               <Mail size={14} />
-              bioengineeringformcmaster@gmail.com
+              bioeng4youth@gmail.com
             </a>
           </div>
 

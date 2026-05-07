@@ -42,6 +42,13 @@ interface Stat {
   value: string;
 }
 
+interface CtaConfig {
+  label: string;
+  href: string;
+  /** Render as a plain anchor with target="_blank" instead of a Next Link. Use for static assets / external URLs. */
+  external?: boolean;
+}
+
 interface PageHeroProps {
   /** Mono eyebrow seal text, e.g. "01 / About BioEng4Youth" */
   eyebrow: string;
@@ -52,9 +59,9 @@ interface PageHeroProps {
   /** Optional stats column (right-side rail). Hidden when empty. */
   stats?: Stat[];
   /** Optional primary CTA — solid ink bg, neuro-teal text. */
-  primaryCta?: { label: string; href: string };
+  primaryCta?: CtaConfig;
   /** Optional secondary CTA — outlined ink. */
-  secondaryCta?: { label: string; href: string };
+  secondaryCta?: CtaConfig;
 }
 
 export function PageHero({
@@ -107,22 +114,42 @@ export function PageHero({
 
         {(primaryCta || secondaryCta) && (
           <div className="mt-10 flex flex-wrap gap-3">
-            {primaryCta && (
-              <Link
-                href={primaryCta.href}
-                className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal font-display font-semibold text-sm hover:brightness-125 active:scale-[0.98] transition-all rounded-md"
-              >
-                {primaryCta.label}
-              </Link>
-            )}
-            {secondaryCta && (
-              <Link
-                href={secondaryCta.href}
-                className="inline-flex items-center gap-2 px-5 py-3 border border-ink text-ink font-display font-medium text-sm hover:bg-ink hover:text-neuro-teal transition-all rounded-md"
-              >
-                {secondaryCta.label} ↗
-              </Link>
-            )}
+            {primaryCta &&
+              (primaryCta.external ? (
+                <a
+                  href={primaryCta.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal font-display font-semibold text-sm hover:brightness-125 active:scale-[0.98] transition-all rounded-md"
+                >
+                  {primaryCta.label}
+                </a>
+              ) : (
+                <Link
+                  href={primaryCta.href}
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal font-display font-semibold text-sm hover:brightness-125 active:scale-[0.98] transition-all rounded-md"
+                >
+                  {primaryCta.label}
+                </Link>
+              ))}
+            {secondaryCta &&
+              (secondaryCta.external ? (
+                <a
+                  href={secondaryCta.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3 border border-ink text-ink font-display font-medium text-sm hover:bg-ink hover:text-neuro-teal transition-all rounded-md"
+                >
+                  {secondaryCta.label} ↗
+                </a>
+              ) : (
+                <Link
+                  href={secondaryCta.href}
+                  className="inline-flex items-center gap-2 px-5 py-3 border border-ink text-ink font-display font-medium text-sm hover:bg-ink hover:text-neuro-teal transition-all rounded-md"
+                >
+                  {secondaryCta.label} ↗
+                </Link>
+              ))}
           </div>
         )}
       </div>

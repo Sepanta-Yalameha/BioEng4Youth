@@ -107,12 +107,14 @@ export default function PastEventsGrid() {
                 </ul>
 
                 <div className="flex flex-wrap gap-3">
-                  <button className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal text-sm font-display font-semibold hover:brightness-125 transition-all rounded-md">
+                  <a
+                    href="/research-case-competition-abstract.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal text-sm font-display font-semibold hover:brightness-125 transition-all rounded-md"
+                  >
                     Read more <ArrowRight size={14} />
-                  </button>
-                  <button className="inline-flex items-center gap-2 px-5 py-3 border border-ink text-ink text-sm font-display font-medium hover:bg-ink hover:text-neuro-teal transition-all rounded-md">
-                    View gallery
-                  </button>
+                  </a>
                 </div>
               </div>
 

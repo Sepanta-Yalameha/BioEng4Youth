@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail } from "lucide-react";
+import { Download, Mail } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
@@ -98,7 +98,12 @@ export default function SponsorsPage() {
         lede="Support McMaster's first bioengineering hackathon and connect with a community of driven, innovative students."
         primaryCta={{
           label: "Get in touch",
-          href: "mailto:bioengineeringformcmaster@gmail.com",
+          href: "mailto:bioeng4youth@gmail.com",
+        }}
+        secondaryCta={{
+          label: "Download package",
+          href: "/bioeng4youth-sponsorship-package.pdf",
+          external: true,
         }}
       />
 
@@ -140,9 +145,20 @@ export default function SponsorsPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
             <SectionHeader index="03" title="Sponsorship tiers" />
-            <p className="text-muted-soft text-sm font-mono max-w-xs sm:text-right">
-              Pricing confirmed soon. Reach out to discuss a package.
-            </p>
+            <div className="sm:text-right max-w-xs">
+              <p className="text-muted-soft text-sm font-mono mb-3">
+                Pricing confirmed soon. Reach out to discuss a package.
+              </p>
+              <a
+                href="/bioeng4youth-sponsorship-package.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] uppercase text-neuro-teal-deep border-b border-neuro-teal-deep/40 pb-1 hover:text-ink hover:border-ink transition-colors"
+              >
+                <Download size={12} />
+                Sponsorship package PDF
+              </a>
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-rule border border-rule">
@@ -179,7 +195,7 @@ export default function SponsorsPage() {
                 </ul>
 
                 <a
-                  href="mailto:bioengineeringformcmaster@gmail.com"
+                  href="mailto:bioeng4youth@gmail.com"
                   className={`block text-center py-3 text-sm font-display font-semibold transition-all rounded-md border ${
                     tier.featured
                       ? "bg-neuro-teal-deep text-ink border-neuro-teal-deep hover:brightness-105"
@@ -216,7 +232,7 @@ export default function SponsorsPage() {
 
           <div className="mt-12 text-center">
             <a
-              href="mailto:bioengineeringformcmaster@gmail.com"
+              href="mailto:bioeng4youth@gmail.com"
               className="inline-flex items-center gap-2 px-6 py-3 bg-ink text-neuro-teal font-display font-semibold text-sm hover:brightness-125 transition-all rounded-md"
             >
               <Mail size={15} />
