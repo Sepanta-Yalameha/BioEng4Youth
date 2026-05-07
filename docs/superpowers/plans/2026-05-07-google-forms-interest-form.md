@@ -371,6 +371,7 @@ export default function InterestFormScroll() {
                   focused={focused === "universityOther"}
                   onFocus={() => setFocused("universityOther")}
                   onBlur={() => setFocused(null)}
+                  error={errors.universityOther}
                 />
               </div>
             )}
