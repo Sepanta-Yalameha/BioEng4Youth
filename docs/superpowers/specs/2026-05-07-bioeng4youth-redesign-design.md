@@ -165,7 +165,7 @@ Every secondary page (`/about`, `/research`, `/past-events`, `/sponsors`) inheri
 - `components/hero-phase.tsx`: "BioHacks" hero changes from Bebas Neue all-caps to Space Grotesk 700 sentence-case ("BioHacks" with the capital H restored); mono eyebrow uses JetBrains Mono.
 - `components/about-phase.tsx`: same font swap; the "Two streams." accent switches from `--neuro-violet` to `--neuro-teal`. Frosted-glass card unchanged.
 - `components/details-phase.tsx`: same font swap; "When: Coming Soon" updated to "When: **Fall 2026**"; "Where: University of Toronto" updated to "Where: **McMaster University**".
-- `components/interest-form-scroll.tsx`: input/label fonts swap to Inter / JetBrains Mono. Teal accent unchanged. EmailJS logic untouched.
+- `components/interest-form-scroll.tsx`: input/label fonts swap to Inter / JetBrains Mono. Teal accent unchanged. The Google Forms `formResponse` POST logic, `UNIVERSITY_OPTIONS` (which includes both McMaster and UofT — keep, since interested students can come from many schools), `OTHER_OPTION` validation, and `FormState` machinery are all untouched.
 - Phase dots and progress bar (`#00e5cc` neon teal) unchanged.
 
 ## 7. Content fixes (rolled in with the chassis work)
@@ -191,6 +191,8 @@ Every secondary page (`/about`, `/research`, `/past-events`, `/sponsors`) inheri
 - Adding a real schedule, live timer, sponsor-logo wall, or applications-form integration — these need real event data
 - Cleaning up the duplicate 3-digit-padded `frame-NNN.jpg` files in `public/frames/` (separate task)
 - Installing the Playwright CLI globally — handled by the user, used during implementation for screenshot QA
+- Integrating the untracked `components/faq-section.tsx` (WIP — not currently imported by any page; whether to add it and to which page is a separate decision)
+- Updating CLAUDE.md to reflect the EmailJS → Google Forms migration (separate task; CLAUDE.md is stale on that point but not the redesign's responsibility)
 
 ## 9. File-level summary
 
