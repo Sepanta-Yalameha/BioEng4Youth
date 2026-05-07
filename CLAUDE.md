@@ -75,29 +75,50 @@ app/page.tsx
 ## Architecture: the secondary pages
 
 - All four club pages (`/about`, `/research`, `/past-events`, `/sponsors`) are simple top-down scrolls with `<Navbar mode="club">` + content sections + `<Footer>`.
-- They use the **light** brand palette (`#FFFFFF` bg, dark hero `#0B1F26`, brand teal `#135264`, brand accent green `#70B389`) — not the dark void palette of the home page.
-- Most copy is inlined in the page file itself (team rosters, sponsorship tiers, value cards, etc.). For dynamic-feeling sections (`research-articles.tsx`, `past-events-grid.tsx`) the page file imports a dedicated component.
+- They share a unified visual language with the home scroll experience (white surface, ink text, neon-teal accent), composed from a small set of presentational primitives in `components/page-chassis.tsx`. The chassis exports four exports — they are the only sanctioned way to build a secondary-page section header / hero / divider / ticker:
+  - `<TickerStrip items={[{text}, ...]} />` — full-width dark band that scrolls left, reuses the `ticker` keyframe in `app/globals.css`. Items are duplicated internally so the `-50%` translate loops seamlessly. Wrap in a `pt-20` container so it clears the floating navbar.
+  - `<PageHero eyebrow headline lede stats? primaryCta? secondaryCta? />` — eyebrow seal pill + Space Grotesk headline (callers wrap the accented noun in `<span className="text-neuro-teal-deep">`) + lede paragraph + optional stats column + optional CTA pair. Stats panel and CTAs are hidden when omitted.
+  - `<SectionHeader index="02" title="..." />` — `[chip] [title] ........ [→]` separator. The `index` is rendered in JetBrains Mono inside a teal-deep chip; the chevron is anchored right.
+  - `<SectionDivider />` — full-width 1px ink rule between major sections.
+- Each secondary page lays out as: `Navbar mode="club"` → `pt-20` + `TickerStrip` → `PageHero` → `SectionDivider` → numbered sections (`SectionHeader` + content) interleaved with `SectionDivider` → optional dark closing band → `Footer`. See `app/about/page.tsx` for the canonical example.
+- Most copy is inlined in the page file itself (team rosters, sponsorship tiers, value cards, etc.). For dynamic-feeling sections (`research-articles.tsx`, `past-events-grid.tsx`) the page file imports a dedicated component. Both rendered components apply the same chassis tokens but own their own internal layout.
+- **Real numbers only.** Stats panels (`Founded 2025`, `Members 22`, etc.) must derive from in-repo data — count the roster array literally rather than rounding up. Don't fabricate numbers in copy; this is a saved memory rule.
 
 ## Design system
 
-Two visual languages live side-by-side. Don't mix them.
+One palette, two surfaces. Both surfaces share the same accent (neon teal) so the dark home scroll experience and the light secondary pages read as one brand.
 
-**Hackathon (home / scroll experience)** — dark, neon, terminal-flavored:
-- Background `--void` `#060810`
-- Accent `--neuro-teal` `#00e5cc` (this is the load bar, scroll bar, phase dot, form focus, all CTAs)
-- Secondary `--neuro-violet` `#a78bfa`
-- Foreground `--ivory` `#e8e4dc`
+**Tokens (defined in `app/globals.css`, exposed via `tailwind.config.ts`):**
 
-**Club (secondary pages)** — white, calmer, editorial:
-- Brand colors live in `tailwind.config.ts → theme.extend.colors.brand` (`primary #135264`, `accent #70B389`, `text #0B303B`, `secondary #328795`, `bg #FFFFFF`)
-- Hero blocks use `#0B1F26` for a dark accent strip on top of white sections.
+Solid colors are stored as space-separated RGB triplets so Tailwind's `<color>/<alpha>` modifier composes through the `rgb(var(--token) / <alpha-value>)` pattern (e.g. `bg-ink/85`, `ring-neuro-teal/50`). When you reference these vars from raw CSS or inline `style={{}}`, **wrap them in `rgb(...)`** — see `body { background: rgb(var(--paper)) }` in globals.css and the footer's gradient bar for examples.
 
-Typography (set in `app/layout.tsx` via `next/font`):
-- `--font-display` → **Bebas Neue** — tall condensed all-caps, hero impact
-- `--font-sans` → **Barlow Semi Condensed** — body / engineered / fast
-- `--font-mono` → **Share Tech Mono** — eyebrows, data labels, the `01 / Register Interest` markers
+| Token | Value | Usage |
+|---|---|---|
+| `--paper` | `255 255 255` | Body bg on secondary pages |
+| `--paper-2` | `246 247 249` | Alt section bg (banded sections) |
+| `--ink` | `11 15 24` | Body text, navbar pill, footer, dark closing bands, primary buttons |
+| `--neuro-teal` | `0 229 204` | Bright accent — **dark surfaces only** (CTAs on ink, scroll progress bar, phase dots) |
+| `--neuro-teal-deep` | `0 184 158` | Light-bg accent — headline accent words, mono eyebrows, section chips, ring colors. Sub-AA on white, kept intentionally for brand thread |
+| `--void` | `6 8 16` | Scroll-experience background |
+| `--ivory` | `232 228 220` | Body text on dark surfaces (scroll page overlays) |
+| `--rule` | `rgba(11,15,24,0.10)` | Hairline borders, dividers — pre-mixed alpha |
+| `--muted` | `rgba(11,15,24,0.60)` | Secondary text — pre-mixed alpha |
+| `--muted-soft` | `rgba(11,15,24,0.40)` | Tertiary / eyebrow text — pre-mixed alpha |
 
-shadcn/ui is configured (`components.json`) with `tsx + cssVariables`, slate base, alias `@/components/ui`, `lucide` icon library. Only `accordion.tsx` is currently in use; install new shadcn components via the standard CLI.
+`--rule` / `--muted` / `--muted-soft` are full `rgba()` strings because they're used at fixed opacity. Don't try `text-muted/50`; use `text-muted-soft` instead.
+
+**Typography (set in `app/layout.tsx` via `next/font`):**
+- `--font-display` → **Space Grotesk** (500/600/700) — sentence-case headlines, section titles, button labels
+- `--font-sans` → **Inter** (300–800) — body, lede, navigation
+- `--font-mono` → **JetBrains Mono** (400/500) — eyebrows, section numbers, ticker copy, data labels
+
+Headline conventions: sentence case, `tracking-[-0.025em]` to `tracking-[-0.045em]` at large sizes, with the noun-in-focus wrapped in `<span className="text-neuro-teal-deep">` on light pages or `style={{ color: "#00e5cc" }}` on dark.
+
+Eyebrow conventions: JetBrains Mono, 9–11px, `tracking-[0.22em]` to `tracking-[0.5em]`, uppercase. Pattern: `01 / Section name` or `★ MARQUEE ITEM`.
+
+shadcn/ui is configured (`components.json`) with `tsx + cssVariables`, slate base, alias `@/components/ui`, `lucide` icon library. Only `accordion.tsx` is currently in use; install new shadcn components via the standard CLI. The shadcn HSL tokens (`--background`, `--foreground`, `--accent`, etc.) live in the `@layer base` block in globals.css and are remapped to match the new palette — `--accent` and `--ring` use `172 100% 36%` to match `--neuro-teal-deep #00b89e` exactly.
+
+**Retired (do not reintroduce):** `brand.primary`, `brand.accent`, `brand.text`, `brand.secondary`, `brand.bg` (sage-green + medical-teal) and `--neuro-violet` (`#a78bfa`). Old hex literals to avoid: `#70B389`, `#135264`, `#0B1F26`, `#0B303B`, `#328795`, `#a78bfa`. Old fonts: Bebas Neue, Barlow Semi Condensed, Share Tech Mono.
 
 ## Forms / Google Forms
 
@@ -115,13 +136,15 @@ Two Google-side settings the form depends on (toggle these on the form, not in c
 
 - **`lucide-react` is pinned to the 0.x line (`^0.577.0`).** The 1.x line ships `.mjs` files, but Next.js 14.2's automatic barrel optimizer for `lucide-react` hardcodes `.js` extensions — installing 1.x breaks every page that imports an icon. If you bump it, also bump Next.js or disable `optimizePackageImports` for `lucide-react`.
 - **The home route locks scrolling.** Don't be surprised when normal `scroll-into-view` or anchor-link tricks don't work on `/`.
-- **Brand cross-talk.** Components inside `components/{hero,about,details}-phase.tsx` and `interest-form-scroll.tsx` belong to the dark hackathon palette; everything in `components/{footer,past-events-grid,research-articles}.tsx` belongs to the light club palette. Keep colors on their own side of the line.
+- **Token format matters for opacity.** Solid CSS-variable tokens (`--ink`, `--paper`, `--neuro-teal`, etc.) are stored as space-separated RGB triplets *without* `rgb(...)`, and `tailwind.config.ts` wraps them with `rgb(var(--x) / <alpha-value>)`. If you change a token to a hex literal, every `bg-ink/85` / `ring-neuro-teal/50` / `bg-neuro-teal-deep/22` opacity modifier silently disappears from the compiled CSS. Direct CSS-var consumers (raw CSS or inline `style={{}}`) must wrap the variable: `rgb(var(--paper))`, not `var(--paper)`.
+- **Tailwind keyframes are utility-gated.** Tailwind's JIT only emits `@keyframes <name>` when the matching `animate-<name>` utility appears in scanned source. Because the chassis ticker uses a hand-written `.ticker-content` class (not `animate-ticker`), `@keyframes ticker` is declared inline in `app/globals.css`. Don't delete the inline keyframe and rely on the `tailwind.config.ts` entry alone.
+- **Phase overlays vs page chassis.** Components inside `components/{hero,about,details}-phase.tsx` and `interest-form-scroll.tsx` are the dark scroll-experience overlays — they sit on `--void` and use `#00e5cc` (bright neon teal) directly via inline styles. Everything else (`navbar.tsx`, `footer.tsx`, `page-chassis.tsx`, secondary pages) uses Tailwind classes against the new tokens. Don't drop dark-overlay inline hexes into the secondary pages, and don't put light-page Tailwind tokens onto the phase overlays.
 - **`no-cors` form submits look successful even when Google rejects them.** If you change anything about the Google Form (settings, entry IDs, ownership), submit a real test via the dev UI and verify the row appears in the Responses tab — the in-app success state is not proof.
 
 ## File-system layout cheat sheet
 
 - `app/` — App Router routes; `app/layout.tsx` defines fonts; `app/globals.css` has CSS variables and the `.glass` / `.glass-dark` utility classes.
-- `components/` — top-level page sections (`<phase>-phase.tsx`, `interest-form-scroll.tsx`, `loading-screen.tsx`, `navbar.tsx`, `footer.tsx`, etc.).
+- `components/` — top-level page sections (`<phase>-phase.tsx`, `interest-form-scroll.tsx`, `loading-screen.tsx`, `navbar.tsx`, `footer.tsx`, etc.). `page-chassis.tsx` exports the four shared primitives every secondary page composes (`TickerStrip`, `PageHero`, `SectionHeader`, `SectionDivider`).
 - `components/ui/` — shadcn-style primitives (only `accordion.tsx` in use).
 - `hooks/` — `use-scroll-animation.ts` is the brain of the home page; `use-in-view.ts` is a one-shot `IntersectionObserver` reveal helper used by secondary pages.
 - `lib/utils.ts` — the `cn()` className combiner only.
