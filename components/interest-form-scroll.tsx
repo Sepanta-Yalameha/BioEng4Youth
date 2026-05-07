@@ -23,6 +23,8 @@ const ENTRY_UNIVERSITY =
 
 const FORM_RESPONSE_URL = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
 
+const OTHER_OPTION = "Other";
+
 const UNIVERSITY_OPTIONS = [
   "McMaster",
   "University of Toronto",
@@ -30,7 +32,7 @@ const UNIVERSITY_OPTIONS = [
   "Western",
   "Queen's",
   "Toronto Metropolitan",
-  "Other",
+  OTHER_OPTION,
 ] as const;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -74,6 +76,8 @@ export default function InterestFormScroll() {
     else if (!EMAIL_REGEX.test(data.email.trim())) next.email = "Enter a valid email";
     if (!data.program.trim()) next.program = "Required";
     if (!data.university) next.university = "Required";
+    if (data.university === OTHER_OPTION && !data.universityOther.trim())
+      next.universityOther = "Required";
     return next;
   };
 
@@ -94,7 +98,7 @@ export default function InterestFormScroll() {
     params.set(ENTRY_EMAIL, formData.email.trim());
     params.set(ENTRY_PROGRAM, formData.program.trim());
 
-    if (formData.university === "Other") {
+    if (formData.university === OTHER_OPTION) {
       params.set(ENTRY_UNIVERSITY, "__other_option__");
       params.set(`${ENTRY_UNIVERSITY}.other_option_response`, formData.universityOther.trim());
     } else {
@@ -280,7 +284,7 @@ export default function InterestFormScroll() {
                 </option>
               ))}
             </select>
-            {formData.university === "Other" && (
+            {formData.university === OTHER_OPTION && (
               <div className="mt-3">
                 <Field
                   label="Specify university"
@@ -292,6 +296,7 @@ export default function InterestFormScroll() {
                   focused={focused === "universityOther"}
                   onFocus={() => setFocused("universityOther")}
                   onBlur={() => setFocused(null)}
+                  error={errors.universityOther}
                 />
               </div>
             )}
