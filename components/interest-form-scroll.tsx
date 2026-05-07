@@ -1,25 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// EmailJS configuration
+// Google Forms configuration
 //
-// Paste your keys from https://dashboard.emailjs.com/admin below.
-// You can also override these via .env.local with NEXT_PUBLIC_EMAILJS_* vars.
-// See README / instructions provided with this component.
+// Submissions POST directly to a public Google Form's formResponse endpoint.
+// IDs are read from process.env first, with hardcoded fallbacks so the form
+// works on a fresh checkout. To point at a different form, see .env.local.example.
 // ─────────────────────────────────────────────────────────────────────────────
-const EMAILJS_SERVICE_ID =
-  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_tfmq2kp";
-const EMAILJS_PUBLIC_KEY =
-  process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "4EtFpyIdjsiY-lJak";
-// Template that emails the BioHacks team with the submission data
-const EMAILJS_TEMPLATE_ADMIN =
-  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ADMIN || "template_cxj591r";
-// Template that emails the user back with the auto-reply confirmation
-const EMAILJS_TEMPLATE_AUTOREPLY =
-  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_AUTOREPLY || "template_cdc01u2";
+const GOOGLE_FORM_ID =
+  process.env.NEXT_PUBLIC_GOOGLE_FORM_ID ||
+  "1FAIpQLSeIIYtZLEXKbYTeqk2HUiADYLdfzFfcQm9gCowMRPMZfAZIkw";
+const ENTRY_NAME =
+  process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_NAME || "entry.1890073431";
+const ENTRY_EMAIL =
+  process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_EMAIL || "entry.984592493";
+const ENTRY_PROGRAM =
+  process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_PROGRAM || "entry.546667181";
+const ENTRY_UNIVERSITY =
+  process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_UNIVERSITY || "entry.1295668290";
+
+const FORM_RESPONSE_URL = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
+
+const UNIVERSITY_OPTIONS = [
+  "McMaster",
+  "University of Toronto",
+  "Waterloo",
+  "Western",
+  "Queen's",
+  "Toronto Metropolitan",
+  "Other",
+] as const;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -27,7 +39,8 @@ type FormState = {
   name: string;
   email: string;
   program: string;
-  year: string;
+  university: string;
+  universityOther: string;
 };
 
 type FormErrors = Partial<Record<keyof FormState, string>>;
@@ -37,7 +50,8 @@ export default function InterestFormScroll() {
     name: "",
     email: "",
     program: "",
-    year: "",
+    university: "",
+    universityOther: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -59,7 +73,7 @@ export default function InterestFormScroll() {
     if (!data.email.trim()) next.email = "Required";
     else if (!EMAIL_REGEX.test(data.email.trim())) next.email = "Enter a valid email";
     if (!data.program.trim()) next.program = "Required";
-    if (!data.year) next.year = "Required";
+    if (!data.university) next.university = "Required";
     return next;
   };
 
@@ -75,41 +89,28 @@ export default function InterestFormScroll() {
 
     setLoading(true);
 
-    // Variables exposed to BOTH EmailJS templates. Keep keys lowercase + with
-    // capitalized aliases so the template draft works regardless of which the
-    // user uses in their template body ({{name}} or {{Name}}).
-    const templateParams = {
-      name: formData.name.trim(),
-      Name: formData.name.trim(),
-      email: formData.email.trim(),
-      Email: formData.email.trim(),
-      program: formData.program.trim(),
-      Program: formData.program.trim(),
-      year: formData.year,
-      Year: formData.year,
-      reply_to: formData.email.trim(),
-    };
+    const params = new URLSearchParams();
+    params.set(ENTRY_NAME, formData.name.trim());
+    params.set(ENTRY_EMAIL, formData.email.trim());
+    params.set(ENTRY_PROGRAM, formData.program.trim());
+
+    if (formData.university === "Other") {
+      params.set(ENTRY_UNIVERSITY, "__other_option__");
+      params.set(`${ENTRY_UNIVERSITY}.other_option_response`, formData.universityOther.trim());
+    } else {
+      params.set(ENTRY_UNIVERSITY, formData.university);
+    }
 
     try {
-      // 1) Notify the BioHacks team
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ADMIN,
-        templateParams,
-        { publicKey: EMAILJS_PUBLIC_KEY }
-      );
-
-      // 2) Auto-reply / confirmation email back to the user
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_AUTOREPLY,
-        templateParams,
-        { publicKey: EMAILJS_PUBLIC_KEY }
-      );
-
+      await fetch(FORM_RESPONSE_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      });
       setSubmitted(true);
     } catch (err) {
-      console.error("EmailJS submission failed:", err);
+      console.error("Google Forms submission failed:", err);
       setSubmitError("Something went wrong. Please try again in a moment.");
     } finally {
       setLoading(false);
@@ -149,7 +150,7 @@ export default function InterestFormScroll() {
             className="text-sm leading-relaxed"
             style={{ fontFamily: "var(--font-sans)", color: "rgba(232,228,220,0.7)" }}
           >
-            Check your inbox — we just sent a confirmation to{" "}
+            We&apos;ll be in touch at{" "}
             <span style={{ color: "#00e5cc" }}>{formData.email}</span>.
           </p>
           <div className="mx-auto mt-6 w-10 h-px" style={{ background: "#00e5cc", opacity: 0.5 }} />
@@ -234,51 +235,66 @@ export default function InterestFormScroll() {
           <div>
             <div className="flex items-baseline justify-between mb-2">
               <label
-                htmlFor="year"
+                htmlFor="university"
                 className="block text-[9px] tracking-[0.4em] uppercase"
                 style={{ fontFamily: "var(--font-mono)", color: "#6b7280" }}
               >
-                Year of Study
+                University
               </label>
-              {errors.year && (
+              {errors.university && (
                 <span
                   className="text-[9px] tracking-[0.3em] uppercase"
                   style={{ fontFamily: "var(--font-mono)", color: "#ff6b6b" }}
                 >
-                  {errors.year}
+                  {errors.university}
                 </span>
               )}
             </div>
             <select
-              id="year"
-              value={formData.year}
-              onChange={handleChange("year")}
+              id="university"
+              value={formData.university}
+              onChange={handleChange("university")}
               className="w-full px-4 py-2.5 text-sm appearance-none"
               style={{
                 fontFamily: "var(--font-sans)",
                 background: "rgba(6,8,16,0.7)",
                 border: `1px solid ${
-                  errors.year
+                  errors.university
                     ? "rgba(255,107,107,0.55)"
-                    : focused === "year"
+                    : focused === "university"
                     ? "rgba(0,229,204,0.55)"
                     : "rgba(255,255,255,0.12)"
                 }`,
-                color: formData.year ? "#e8e4dc" : "rgba(255,255,255,0.22)",
+                color: formData.university ? "#e8e4dc" : "rgba(255,255,255,0.22)",
                 outline: "none",
               }}
-              onFocus={() => setFocused("year")}
+              onFocus={() => setFocused("university")}
               onBlur={() => setFocused(null)}
             >
               <option value="" style={{ color: "#6b7280", background: "#060810" }}>
-                Select year
+                Select university
               </option>
-              {["1", "2", "3", "4", "5+"].map((y) => (
-                <option key={y} value={y} style={{ color: "#e8e4dc", background: "#060810" }}>
-                  Year {y}
+              {UNIVERSITY_OPTIONS.map((u) => (
+                <option key={u} value={u} style={{ color: "#e8e4dc", background: "#060810" }}>
+                  {u}
                 </option>
               ))}
             </select>
+            {formData.university === "Other" && (
+              <div className="mt-3">
+                <Field
+                  label="Specify university"
+                  id="universityOther"
+                  type="text"
+                  placeholder="University name"
+                  value={formData.universityOther}
+                  onChange={handleChange("universityOther")}
+                  focused={focused === "universityOther"}
+                  onFocus={() => setFocused("universityOther")}
+                  onBlur={() => setFocused(null)}
+                />
+              </div>
+            )}
           </div>
 
           {submitError && (
