@@ -29,7 +29,7 @@ EmailJS is removed entirely. The auto-reply email is dropped (per design decisio
 
 University options (in order): McMaster, University of Toronto, Waterloo, Western, Queen's, Toronto Metropolitan, Other.
 
-When "Other" is selected, the UI reveals a free-text input. On submit we send `entry.1295668290=__other_option__` plus `entry.1295668290.other_option_response=<typed value>`. For any non-Other selection we send the option string in `entry.1295668290` and omit the `.other_option_response` param.
+When "Other" is selected, the UI reveals a free-text input that is itself required (non-empty after `.trim()`). On submit we send `entry.1295668290=__other_option__` plus `entry.1295668290.other_option_response=<typed value>`. For any non-Other selection we send the option string in `entry.1295668290` and omit the `.other_option_response` param.
 
 The `Year of Study` field present in the EmailJS form is removed.
 
@@ -91,6 +91,7 @@ A `.env.local.example` is committed to document the variables (with the same def
 | --------------------------------------- | -------------------------------------------------------- |
 | Empty required field                    | Inline red label "Required" next to that field           |
 | Invalid email format                    | Inline red label "Enter a valid email"                   |
+| University = Other with empty free-text | Inline red label "Required" on the Other input           |
 | `fetch` rejects (offline, DNS fail)     | Whole-form error "Something went wrong. Try again."      |
 | `fetch` resolves with non-200 (rare)    | Treated as success — `mode: "no-cors"` hides the status  |
 
