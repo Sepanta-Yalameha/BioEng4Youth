@@ -104,7 +104,7 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="fixed top-20 left-4 right-4 z-40 rounded-2xl bg-ink/92 backdrop-blur-xl border border-white/10 shadow-2xl p-3 flex flex-col gap-1">
+        <div className="fixed top-20 left-4 right-4 z-40 rounded-2xl bg-ink border border-white/10 shadow-2xl p-3 flex flex-col gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -114,7 +114,7 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
                 "px-4 py-3 rounded-xl text-sm font-sans transition-all",
                 pathname === link.href
                   ? "bg-neuro-teal-deep/22 text-neuro-teal ring-1 ring-neuro-teal-deep/45"
-                  : "text-white/60 hover:text-white hover:bg-white/8"
+                  : "text-white/75 hover:text-white hover:bg-white/8"
               )}
             >
               {link.label}
