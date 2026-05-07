@@ -35,7 +35,7 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
   return (
     <>
       <header className="fixed top-4 left-4 right-4 z-50">
-        <nav className="flex items-center justify-between px-2 py-2 rounded-full bg-ink/85 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40">
+        <nav className="relative flex items-center justify-between px-2 py-2 rounded-full bg-ink/85 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40">
           {/* Left — logo lockup */}
           <Link
             href="/"
@@ -61,8 +61,10 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
             </div>
           </Link>
 
-          {/* Center — links */}
-          <div className="hidden md:flex items-center gap-0.5">
+          {/* Center — links (absolutely centered against the pill so the
+               logo's width on the left and CTA's width on the right don't
+               drag the link group off-center) */}
+          <div className="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (
