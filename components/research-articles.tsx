@@ -76,27 +76,26 @@ const articles: Article[] = [
 ];
 
 export default function ResearchArticles() {
-  return (
-    <section className="py-16">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8">
+  const topicCount = new Set(articles.flatMap((a) => a.tags)).size;
 
+  return (
+    <section className="py-16 bg-paper">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
         {/* Count header */}
-        <div className="flex items-baseline justify-between border-b border-[#0B1F26] pb-5 mb-0">
-          <span className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#0B1F26]/40">
+        <div className="flex items-baseline justify-between border-b-2 border-ink pb-4 mb-0">
+          <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-muted-soft">
             Articles
           </span>
-          <span className="font-mono text-[10px] tracking-[0.5em] uppercase text-[#0B1F26]/25">
-            {articles.length} total
+          <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-muted-soft">
+            {articles.length} total · {topicCount} topics
           </span>
         </div>
 
-        {/* Article list — numbered strips */}
-        <ol className="divide-y divide-[#0B1F26]/8">
+        <ol className="divide-y divide-rule">
           {articles.map((article, i) => (
             <ArticleRow key={article.title} article={article} index={i} />
           ))}
         </ol>
-
       </div>
     </section>
   );
@@ -104,12 +103,11 @@ export default function ResearchArticles() {
 
 function ArticleRow({ article, index }: { article: Article; index: number }) {
   return (
-    <li className="group grid grid-cols-[3rem_1fr] sm:grid-cols-[4rem_1fr] gap-0 hover:bg-[#F6F9F8] transition-colors duration-200 -mx-4 px-4">
-
-      {/* Index number */}
+    <li className="group grid grid-cols-[3rem_1fr] sm:grid-cols-[4rem_1fr] gap-0 hover:bg-paper-2 transition-colors duration-200 -mx-4 px-4">
+      {/* Index */}
       <div className="pt-8 pb-8 pr-4">
         <span
-          className="font-display font-bold text-[#0B1F26]/12 group-hover:text-[#70B389]/50 transition-colors duration-200 leading-none select-none"
+          className="font-display font-bold text-rule group-hover:text-neuro-teal-deep transition-colors duration-200 leading-none select-none"
           style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
         >
           {String(index + 1).padStart(2, "0")}
@@ -117,16 +115,19 @@ function ArticleRow({ article, index }: { article: Article; index: number }) {
       </div>
 
       {/* Content */}
-      <div className="py-8 border-l border-[#0B1F26]/8 group-hover:border-[#70B389]/20 pl-6 sm:pl-8 transition-colors duration-200">
-        {/* Meta row */}
+      <div className="py-8 border-l border-rule group-hover:border-neuro-teal-deep/40 pl-6 sm:pl-8 transition-colors duration-200">
+        {/* Meta */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3">
-          <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-widest uppercase text-[#0B1F26]/30">
+          <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-[0.22em] uppercase text-muted-soft">
             <Calendar size={9} />
             {article.date}
           </span>
-          <span className="text-[#0B1F26]/15 text-xs">·</span>
+          <span className="text-rule text-xs">·</span>
           {article.tags.map((tag) => (
-            <span key={tag} className="font-mono text-[9px] tracking-widest uppercase text-[#70B389]/70">
+            <span
+              key={tag}
+              className="font-mono text-[9px] tracking-[0.22em] uppercase text-neuro-teal-deep/80"
+            >
               {tag}
             </span>
           ))}
@@ -134,21 +135,21 @@ function ArticleRow({ article, index }: { article: Article; index: number }) {
 
         {/* Title */}
         <h3
-          className="font-display font-bold text-[#0B1F26] leading-tight tracking-tight mb-3 group-hover:text-[#135264] transition-colors duration-200"
+          className="font-display font-bold text-ink leading-tight tracking-[-0.015em] mb-3 group-hover:text-neuro-teal-deep transition-colors duration-200"
           style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)" }}
         >
           {article.title}
         </h3>
 
-        {/* Abstract — hidden until hover on desktop, always shown on mobile */}
-        <p className="text-[#0B1F26]/50 text-sm leading-relaxed max-w-2xl sm:max-h-0 sm:overflow-hidden sm:opacity-0 sm:group-hover:max-h-40 sm:group-hover:opacity-100 transition-all duration-300 ease-out mb-0 sm:group-hover:mb-4">
+        {/* Abstract */}
+        <p className="text-muted text-[14px] leading-relaxed max-w-2xl sm:max-h-0 sm:overflow-hidden sm:opacity-0 sm:group-hover:max-h-40 sm:group-hover:opacity-100 transition-all duration-300 ease-out mb-0 sm:group-hover:mb-4">
           {article.abstract}
         </p>
 
         {/* Read link */}
-        <div className="flex items-center gap-1.5 text-[#0B1F26]/30 group-hover:text-[#70B389] text-sm font-medium transition-all duration-200 mt-1">
-          <span className="font-mono text-[9px] tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Read Article
+        <div className="flex items-center gap-1.5 text-muted-soft group-hover:text-neuro-teal-deep text-sm font-medium transition-all duration-200 mt-1">
+          <span className="font-mono text-[9px] tracking-[0.22em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Read article
           </span>
           <ArrowUpRight
             size={14}
