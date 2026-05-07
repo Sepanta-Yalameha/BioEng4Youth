@@ -40,3 +40,6 @@ next-env.d.ts
 
 # brainstorming visual companion mockups (regenerable)
 /.superpowers/
+
+# playwright-cli session artifacts (per-run snapshots, logs)
+/.playwright-cli/
