@@ -37,7 +37,7 @@ export default function AboutPhase() {
           style={{ fontFamily: "var(--font-sans)", color: "#e8e4dc" }}
         >
           BioHacks challenges science and engineering students
-          to collaborate on a real neurological health case —
+          to collaborate on a real neurological health case -
           no prior experience required, just curiosity and drive.
         </p>
 

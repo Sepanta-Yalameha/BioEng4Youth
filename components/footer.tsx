@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail } from "lucide-react";
+import { composeEmail, SUPPORT_EMAIL } from "@/lib/email";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -13,7 +14,7 @@ const navLinks = [
 export default function Footer() {
   return (
     <footer className="bg-ink text-white">
-      {/* Top accent — echoes the scroll-page progress bar */}
+      {/* Top accent - echoes the scroll-page progress bar */}
       <div
         className="h-px w-full"
         style={{
@@ -49,11 +50,13 @@ export default function Footer() {
               McMaster&apos;s bioengineering hackathon. Where science meets engineering.
             </p>
             <a
-              href="mailto:bioeng4youth@gmail.com"
+              href={composeEmail("Hello from the BioHacks site")}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 mt-6 text-neuro-teal text-sm font-medium hover:text-white transition-colors"
             >
               <Mail size={14} />
-              bioeng4youth@gmail.com
+              {SUPPORT_EMAIL}
             </a>
           </div>
 

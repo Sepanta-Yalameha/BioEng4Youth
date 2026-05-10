@@ -36,7 +36,7 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
     <>
       <header className="fixed top-4 left-4 right-4 z-50">
         <nav className="relative flex items-center justify-between px-2 py-2 rounded-full bg-ink/85 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40">
-          {/* Left — logo lockup */}
+          {/* Left - logo lockup */}
           <Link
             href="/"
             className="flex items-center gap-3 pl-1 pr-4 group shrink-0"
@@ -61,7 +61,7 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
             </div>
           </Link>
 
-          {/* Center — links (absolutely centered against the pill so the
+          {/* Center - links (absolutely centered against the pill so the
                logo's width on the left and CTA's width on the right don't
                drag the link group off-center) */}
           <div className="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
@@ -84,7 +84,7 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
             })}
           </div>
 
-          {/* Right — CTA + mobile toggle */}
+          {/* Right - CTA + mobile toggle */}
           <div className="flex items-center gap-2 shrink-0">
             <Link
               href="/#form"

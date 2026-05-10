@@ -1,77 +1,44 @@
 "use client";
 
-import { ArrowUpRight, Calendar } from "lucide-react";
+import { ArrowUpRight, User } from "lucide-react";
 
 interface Article {
   title: string;
-  date: string;
+  author?: string;
   tags: string[];
   abstract: string;
+  href: string;
 }
 
 const articles: Article[] = [
   {
-    title: "Decellularized Scaffolds for Cardiac Tissue Regeneration",
-    date: "March 2026",
-    tags: ["Tissue Engineering", "Biomaterials"],
+    title: "The Future of Brain-Computer Interfaces",
+    tags: ["Neural Interfaces", "AI / ML"],
     abstract:
-      "Exploring how decellularized extracellular matrix scaffolds can be repopulated with patient-derived cardiomyocytes to restore function in damaged heart tissue after myocardial infarction.",
+      "A technical primer on how BCIs capture, filter, and decode neural signals - from non-invasive EEG headsets to implanted microelectrode arrays - and how Neuralink and Synchron are turning that signal chain into devices that restore movement and speech for patients with ALS and paralysis.",
+    href: "/research/Brain-Computer%20Interfaces%20(BCIs)%20-%20Technical%20Analysis_%20The%20Future%20of%20Brain-Computer%20Interfaces%20(BCIs)%20(1).pdf",
   },
   {
-    title: "Non-Invasive Brain-Computer Interfaces Using EEG Signal Processing",
-    date: "February 2026",
-    tags: ["Neural Interfaces"],
+    title: "Modeling Synthetic Biological Systems",
+    tags: ["Synthetic Biology", "Computational Modeling"],
     abstract:
-      "Advances in dry-electrode EEG headsets and real-time signal classification are bringing non-invasive BCIs closer to clinical applications for patients with motor disabilities.",
+      "Synthetic biology lets researchers wire genes, proteins, and regulatory elements together like circuits - but those circuits don't always behave the way the lab predicts. A walkthrough of how computational models simulate genetic-circuit dynamics before any cells are touched, using a toxin-sensing fluorescent bacterium as a worked example.",
+    href: "/research/Modeling%20Synthetic%20Biological%20Systems%20(1).pdf",
   },
   {
-    title: "Hydrogel-Based Drug Delivery Systems for Targeted Cancer Therapy",
-    date: "January 2026",
-    tags: ["Biomaterials"],
+    title: "The Hidden Role of Fluid Dynamics in Blood Flow & Disease",
+    author: "Sumiran Sharma",
+    tags: ["Cardiovascular", "Fluid Dynamics"],
     abstract:
-      "pH-responsive hydrogels engineered to release chemotherapeutic agents selectively within the acidic tumour microenvironment, reducing systemic toxicity while improving treatment efficacy.",
+      "Laminar blood flow stimulates endothelial cells to release nitric oxide; disturbed flow at arterial branches and bifurcations does the opposite - and that's exactly where atherosclerotic plaques tend to form. An exploration of how shear stress and turbulence drive cardiovascular disease, and how computational fluid dynamics is now used to design grafts and stents that restore healthy flow patterns.",
+    href: "/research/Sumiran%20Sharma%20-%20The%20Hidden%20Role%20of%20Fluid%20Dynamics%20in%20Blood%20Flow%20%26%20Disease.pdf",
   },
   {
-    title: "3D-Bioprinted Vascular Networks for Organ-on-a-Chip Models",
-    date: "December 2025",
-    tags: ["Tissue Engineering"],
+    title: "Precision Medicine: Multi-Omics, Biomarkers & Companion Diagnostics",
+    tags: ["Precision Medicine", "Oncology"],
     abstract:
-      "Combining sacrificial bioprinting with endothelial cell seeding to create perfusable microvascular networks that better replicate organ-level physiology in microphysiological systems.",
-  },
-  {
-    title: "Biodegradable Magnesium Alloys for Orthopedic Implants",
-    date: "November 2025",
-    tags: ["Biomaterials"],
-    abstract:
-      "Investigating surface-modified Mg-Zn-Ca alloys that degrade at a controlled rate in vivo, eliminating the need for secondary implant-removal surgeries in fracture fixation.",
-  },
-  {
-    title: "Machine Learning for Early Detection of Diabetic Retinopathy",
-    date: "October 2025",
-    tags: ["Medical Imaging"],
-    abstract:
-      "A CNN trained on over 80,000 fundus images achieves specialist-level accuracy in grading diabetic retinopathy severity, enabling scalable screening in underserved communities.",
-  },
-  {
-    title: "CRISPR-Cas9 Gene Editing Strategies for Sickle Cell Disease",
-    date: "September 2025",
-    tags: ["Genetic Engineering"],
-    abstract:
-      "Recent clinical trials demonstrate that ex-vivo CRISPR editing of the BCL11A enhancer in hematopoietic stem cells can reactivate fetal hemoglobin production and alleviate sickle cell symptoms.",
-  },
-  {
-    title: "Flexible Piezoelectric Sensors for Real-Time Gait Analysis",
-    date: "August 2025",
-    tags: ["Biosensors"],
-    abstract:
-      "Thin-film PVDF sensors embedded in shoe insoles capture plantar pressure distributions during walking, providing clinicians with continuous biomechanical data for post-stroke rehabilitation.",
-  },
-  {
-    title: "Microfluidic Platforms for High-Throughput Drug Screening",
-    date: "July 2025",
-    tags: ["Biosensors", "Biomaterials"],
-    abstract:
-      "Droplet-based microfluidic chips that encapsulate individual cells in picoliter volumes, enabling rapid screening of thousands of drug candidates with minimal reagent consumption.",
+      "Modern medicine is shifting from treating disease after diagnosis to predicting it from molecular signals. A survey of how multi-omics profiling, biomarker discovery, and companion diagnostics are powering individualized treatment - including the I-PREDICT study, where nearly 95% of advanced-cancer patients had distinct tumour DNA profiles and matched therapies improved response and survival.",
+    href: "/research/BE4Y%20Precision%20Medicine.docx",
   },
 ];
 
@@ -103,60 +70,71 @@ export default function ResearchArticles() {
 
 function ArticleRow({ article, index }: { article: Article; index: number }) {
   return (
-    <li className="group grid grid-cols-[3rem_1fr] sm:grid-cols-[4rem_1fr] gap-0 hover:bg-paper-2 transition-colors duration-200 -mx-4 px-4">
-      {/* Index */}
-      <div className="pt-8 pb-8 pr-4">
-        <span
-          className="font-display font-bold text-rule group-hover:text-neuro-teal-deep transition-colors duration-200 leading-none select-none"
-          style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
-        >
-          {String(index + 1).padStart(2, "0")}
-        </span>
-      </div>
-
-      {/* Content */}
-      <div className="py-8 border-l border-rule group-hover:border-neuro-teal-deep/40 pl-6 sm:pl-8 transition-colors duration-200">
-        {/* Meta */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3">
-          <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-[0.22em] uppercase text-muted-soft">
-            <Calendar size={9} />
-            {article.date}
+    <li>
+      <a
+        href={article.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group grid grid-cols-[3rem_1fr] sm:grid-cols-[4rem_1fr] gap-0 hover:bg-paper-2 transition-colors duration-200 -mx-4 px-4"
+      >
+        {/* Index */}
+        <div className="pt-8 pb-8 pr-4">
+          <span
+            className="font-display font-bold text-rule group-hover:text-neuro-teal-deep transition-colors duration-200 leading-none select-none"
+            style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
+          >
+            {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="text-rule text-xs">·</span>
-          {article.tags.map((tag) => (
-            <span
-              key={tag}
-              className="font-mono text-[9px] tracking-[0.22em] uppercase text-neuro-teal-deep/80"
-            >
-              {tag}
+        </div>
+
+        {/* Content */}
+        <div className="py-8 border-l border-rule group-hover:border-neuro-teal-deep/40 pl-6 sm:pl-8 transition-colors duration-200">
+          {/* Meta */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3">
+            {article.author && (
+              <>
+                <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-[0.22em] uppercase text-muted-soft">
+                  <User size={9} />
+                  {article.author}
+                </span>
+                <span className="text-rule text-xs">·</span>
+              </>
+            )}
+            {article.tags.map((tag) => (
+              <span
+                key={tag}
+                className="font-mono text-[9px] tracking-[0.22em] uppercase text-neuro-teal-deep/80"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Title */}
+          <h3
+            className="font-display font-bold text-ink leading-tight tracking-[-0.015em] mb-3 group-hover:text-neuro-teal-deep transition-colors duration-200"
+            style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)" }}
+          >
+            {article.title}
+          </h3>
+
+          {/* Abstract */}
+          <p className="text-muted text-[14px] leading-relaxed max-w-2xl sm:max-h-0 sm:overflow-hidden sm:opacity-0 sm:group-hover:max-h-40 sm:group-hover:opacity-100 transition-all duration-300 ease-out mb-0 sm:group-hover:mb-4">
+            {article.abstract}
+          </p>
+
+          {/* Read link */}
+          <div className="flex items-center gap-1.5 text-muted-soft group-hover:text-neuro-teal-deep text-sm font-medium transition-all duration-200 mt-1">
+            <span className="font-mono text-[9px] tracking-[0.22em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              Read article
             </span>
-          ))}
+            <ArrowUpRight
+              size={14}
+              className="opacity-0 group-hover:opacity-100 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </div>
         </div>
-
-        {/* Title */}
-        <h3
-          className="font-display font-bold text-ink leading-tight tracking-[-0.015em] mb-3 group-hover:text-neuro-teal-deep transition-colors duration-200"
-          style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)" }}
-        >
-          {article.title}
-        </h3>
-
-        {/* Abstract */}
-        <p className="text-muted text-[14px] leading-relaxed max-w-2xl sm:max-h-0 sm:overflow-hidden sm:opacity-0 sm:group-hover:max-h-40 sm:group-hover:opacity-100 transition-all duration-300 ease-out mb-0 sm:group-hover:mb-4">
-          {article.abstract}
-        </p>
-
-        {/* Read link */}
-        <div className="flex items-center gap-1.5 text-muted-soft group-hover:text-neuro-teal-deep text-sm font-medium transition-all duration-200 mt-1">
-          <span className="font-mono text-[9px] tracking-[0.22em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Read article
-          </span>
-          <ArrowUpRight
-            size={14}
-            className="opacity-0 group-hover:opacity-100 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
-        </div>
-      </div>
+      </a>
     </li>
   );
 }

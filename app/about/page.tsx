@@ -15,9 +15,10 @@ import {
   SectionHeader,
   SectionDivider,
 } from "@/components/page-chassis";
+import { composeEmail } from "@/lib/email";
 
 export const metadata: Metadata = {
-  title: "About — BioEng4Youth",
+  title: "About - BioEng4Youth",
   description:
     "BioEng4Youth is a student-led, non-profit global organization dedicated to empowering youth through accessible opportunities in research, outreach, and innovation.",
 };
@@ -132,13 +133,20 @@ export default function AboutPage() {
           { label: "Members", value: String(totalMembers) },
           { label: "Type", value: "Student-led nonprofit" },
         ]}
-        primaryCta={{ label: "Get Involved", href: "mailto:bioeng4youth@gmail.com" }}
+        primaryCta={{
+          label: "Get Involved",
+          href: composeEmail(
+            "Getting involved with BioEng4Youth",
+            "Hi BioEng4Youth team,\n\nI'd love to learn more about getting involved. A bit about me:\n\n[your background / school / year]\n\nThanks,\n[your name]"
+          ),
+          external: true,
+        }}
         secondaryCta={{ label: "Read mission", href: "#mission" }}
       />
 
       <SectionDivider />
 
-      {/* 02 — Mission */}
+      {/* 02 - Mission */}
       <section id="mission" className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <SectionHeader index="02" title="Our mission" />
@@ -155,7 +163,7 @@ export default function AboutPage() {
 
       <SectionDivider />
 
-      {/* 03 — Vision */}
+      {/* 03 - Vision */}
       <section className="bg-paper-2">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <SectionHeader index="03" title="Our vision" />
@@ -171,7 +179,7 @@ export default function AboutPage() {
 
       <SectionDivider />
 
-      {/* 04 — What we do */}
+      {/* 04 - What we do */}
       <section className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <SectionHeader index="04" title="What we do" />
@@ -188,7 +196,7 @@ export default function AboutPage() {
 
       <SectionDivider />
 
-      {/* 05 — Values */}
+      {/* 05 - Values */}
       <section className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <SectionHeader index="05" title="What drives us" />
@@ -213,7 +221,7 @@ export default function AboutPage() {
 
       <SectionDivider />
 
-      {/* 06 — Team */}
+      {/* 06 - Team */}
       <section className="bg-paper-2">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <SectionHeader index="06" title="The team" />
@@ -223,7 +231,7 @@ export default function AboutPage() {
             and innovation in healthcare.
           </p>
 
-          {/* Tier 1 — Co-Presidents */}
+          {/* Tier 1 - Co-Presidents */}
           <div className="flex justify-center gap-12 mb-12">
             {tier1.map((m) => (
               <TeamCard
@@ -236,7 +244,7 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* Tier 2 — Directors */}
+          {/* Tier 2 - Directors */}
           <div className="flex justify-center flex-wrap gap-10 mb-16">
             {tier2.map((m) => (
               <TeamCard
@@ -251,7 +259,7 @@ export default function AboutPage() {
 
           <div className="h-px w-full bg-rule mb-14" />
 
-          {/* Tier 3 — Departments */}
+          {/* Tier 3 - Departments */}
           <div className="grid md:grid-cols-3 gap-12">
             {departments.map((dept) => (
               <div key={dept.name}>
@@ -274,7 +282,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 07 — Closing dark band */}
+      {/* 07 - Closing dark band */}
       <section className="bg-ink text-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20 grid lg:grid-cols-2 gap-16">
           <div>
@@ -310,7 +318,12 @@ export default function AboutPage() {
               interested in contributing, we&apos;d love to hear from you.
             </p>
             <a
-              href="mailto:bioeng4youth@gmail.com"
+              href={composeEmail(
+                "Joining the BioEng4Youth team",
+                "Hi BioEng4Youth team,\n\nI'm interested in joining the team. A bit about me:\n\n[your background / school / year / what you'd like to contribute]\n\nThanks,\n[your name]"
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-neuro-teal text-ink font-display font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all rounded-md"
             >
               Get in touch →

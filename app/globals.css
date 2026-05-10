@@ -6,7 +6,7 @@
    Solid colors are stored as space-separated RGB triplets so Tailwind can
    compose alpha through its `<color>/<opacity>` modifier (e.g. `bg-ink/85`)
    via the `rgb(var(--token) / <alpha-value>)` pattern in tailwind.config.ts.
-   Direct CSS references must wrap the variable in `rgb(...)` — see body /
+   Direct CSS references must wrap the variable in `rgb(...)` - see body /
    #scroll-bar below. The `--rule` / `--muted` / `--muted-soft` tokens stay
    as full rgba() because they're pre-mixed at fixed opacity. */
 :root {
@@ -23,15 +23,10 @@
   --void: 6 8 16;
   --ivory: 232 228 220;
 
-  /* Pre-mixed alpha — used directly, no Tailwind opacity modifier */
+  /* Pre-mixed alpha - used directly, no Tailwind opacity modifier */
   --rule: rgba(11, 15, 24, 0.10);
   --muted: rgba(11, 15, 24, 0.60);
   --muted-soft: rgba(11, 15, 24, 0.40);
-}
-
-/* Scroll landing locks the body when the experience is mounted */
-body.scroll-locked {
-  overflow: hidden;
 }
 
 /* Scroll progress bar (managed inline by ScrollExperience) */
@@ -44,7 +39,7 @@ body.scroll-locked {
   z-index: 200;
 }
 
-/* shadcn/ui HSL tokens — kept but re-mapped to the new palette */
+/* shadcn/ui HSL tokens - kept but re-mapped to the new palette */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -99,7 +94,7 @@ body.scroll-locked {
   .font-display { font-family: var(--font-display), system-ui, sans-serif; }
   .font-mono-brand { font-family: var(--font-mono), ui-monospace, monospace; }
 
-  /* Used by the scroll-page phase overlays — kept intact */
+  /* Used by the scroll-page phase overlays - kept intact */
   .glass {
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(14px);
@@ -128,14 +123,15 @@ body.scroll-locked {
 
 .ticker-content {
   display: inline-flex;
-  animation: ticker 28s linear infinite;
+  /* !important so the global prefers-reduced-motion override below (which
+     sets animation-duration: 0.01ms !important on `*`) doesn't freeze the
+     ticker. The ticker is purely decorative (aria-hidden) with slow, steady
+     horizontal motion - no flashing or rapid change - so always letting it
+     scroll is within the WCAG reduced-motion guidance. */
+  animation: ticker 28s linear infinite !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-content {
-    animation: none;
-  }
-
   *,
   *::before,
   *::after {

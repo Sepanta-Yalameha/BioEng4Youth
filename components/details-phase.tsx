@@ -41,7 +41,7 @@ export default function DetailsPhase() {
               className="font-normal text-base leading-relaxed mt-1"
               style={{ fontFamily: "var(--font-sans)", color: "#e8e4dc" }}
             >
-              A live neuro health case — revealed at the event.
+              A live neuro health case - revealed at the event.
               Your team diagnoses, engineers, and presents a solution.
             </p>
           </Row>

@@ -5,7 +5,7 @@ import PastEventsGrid from "@/components/past-events-grid";
 import { TickerStrip, PageHero, SectionDivider } from "@/components/page-chassis";
 
 export const metadata: Metadata = {
-  title: "Past Events — BioEng4Youth",
+  title: "Past Events - BioEng4Youth",
   description: "Events hosted by BioEng4Youth at McMaster University.",
 };
 
@@ -33,7 +33,7 @@ export default function PastEventsPage() {
             <span className="text-neuro-teal-deep">shaped us</span>.
           </>
         }
-        lede="From case competitions to hands-on workshops — a look at what we've built and who we've brought together."
+        lede="From case competitions to hands-on workshops - a look at what we've built and who we've brought together."
       />
 
       <SectionDivider />

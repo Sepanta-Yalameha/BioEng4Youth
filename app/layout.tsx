@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-// Display — geometric grotesque, sentence-case-friendly, more distinctive than the
+// Display - geometric grotesque, sentence-case-friendly, more distinctive than the
 // overused Bebas Neue. Used for headlines and section titles.
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -10,14 +10,14 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["500", "600", "700"],
 });
 
-// Body — neutral grotesque, broad weight range, reads cleanly at every size.
+// Body - neutral grotesque, broad weight range, reads cleanly at every size.
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-// Mono — engineered terminal labels, eyebrows, ticker copy, data values.
+// Mono - engineered terminal labels, eyebrows, ticker copy, data values.
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
@@ -25,7 +25,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BioHacks — BioEng4Youth",
+  title: "BioHacks - BioEng4Youth",
   description:
     "BioEng4Youth's bioengineering hackathon at McMaster University. Apply your science or engineering knowledge to a real neurological health challenge.",
   openGraph: {

@@ -14,8 +14,13 @@ export function TickerStrip({
 }: {
   items: TickerItem[];
 }) {
-  // Duplicate the items so the -50% translate creates a seamless loop.
-  const doubled = [...items, ...items];
+  // The keyframe translates the strip by -50% of its own width, which only
+  // looks seamless when one "copy" of the items already overflows the
+  // viewport. With short item lists the strip would otherwise stop with
+  // empty space on the right. Pad each copy out to ~6× the user-supplied
+  // items so it's wider than any reasonable viewport.
+  const oneCopy = Array.from({ length: 6 }, () => items).flat();
+  const doubled = [...oneCopy, ...oneCopy];
   return (
     <div
       className="w-full overflow-hidden bg-ink text-neuro-teal border-y border-neuro-teal/20"
@@ -49,6 +54,12 @@ interface CtaConfig {
   external?: boolean;
 }
 
+// Next.js `<Link>` is for in-app navigation and silently breaks `mailto:` and
+// `tel:` hrefs in some browsers. Detect those protocols and force a plain `<a>`.
+function isProtocolLink(href: string) {
+  return /^(mailto:|tel:)/i.test(href);
+}
+
 interface PageHeroProps {
   /** Mono eyebrow seal text, e.g. "01 / About BioEng4Youth" */
   eyebrow: string;
@@ -58,9 +69,9 @@ interface PageHeroProps {
   lede: string;
   /** Optional stats column (right-side rail). Hidden when empty. */
   stats?: Stat[];
-  /** Optional primary CTA — solid ink bg, neuro-teal text. */
+  /** Optional primary CTA - solid ink bg, neuro-teal text. */
   primaryCta?: CtaConfig;
-  /** Optional secondary CTA — outlined ink. */
+  /** Optional secondary CTA - outlined ink. */
   secondaryCta?: CtaConfig;
 }
 
@@ -114,46 +125,56 @@ export function PageHero({
 
         {(primaryCta || secondaryCta) && (
           <div className="mt-10 flex flex-wrap gap-3">
-            {primaryCta &&
-              (primaryCta.external ? (
-                <a
-                  href={primaryCta.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal font-display font-semibold text-sm hover:brightness-125 active:scale-[0.98] transition-all rounded-md"
-                >
-                  {primaryCta.label}
-                </a>
-              ) : (
-                <Link
-                  href={primaryCta.href}
-                  className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal font-display font-semibold text-sm hover:brightness-125 active:scale-[0.98] transition-all rounded-md"
-                >
-                  {primaryCta.label}
-                </Link>
-              ))}
-            {secondaryCta &&
-              (secondaryCta.external ? (
-                <a
-                  href={secondaryCta.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-3 border border-ink text-ink font-display font-medium text-sm hover:bg-ink hover:text-neuro-teal transition-all rounded-md"
-                >
-                  {secondaryCta.label} ↗
-                </a>
-              ) : (
-                <Link
-                  href={secondaryCta.href}
-                  className="inline-flex items-center gap-2 px-5 py-3 border border-ink text-ink font-display font-medium text-sm hover:bg-ink hover:text-neuro-teal transition-all rounded-md"
-                >
-                  {secondaryCta.label} ↗
-                </Link>
-              ))}
+            {primaryCta && (
+              <CtaLink
+                cta={primaryCta}
+                className="inline-flex items-center gap-2 px-5 py-3 bg-ink text-neuro-teal font-display font-semibold text-sm hover:brightness-125 active:scale-[0.98] transition-all rounded-md"
+              />
+            )}
+            {secondaryCta && (
+              <CtaLink
+                cta={secondaryCta}
+                className="inline-flex items-center gap-2 px-5 py-3 border border-ink text-ink font-display font-medium text-sm hover:bg-ink hover:text-neuro-teal transition-all rounded-md"
+                trailingArrow
+              />
+            )}
           </div>
         )}
       </div>
     </section>
+  );
+}
+
+// CTA link: routes mailto: / tel: / external URLs through a plain `<a>` and
+// internal hrefs through Next's `<Link>`. Centralised so adding a new CTA
+// can't accidentally drop a `mailto:` into Next's router (which won't open
+// the user's email client).
+function CtaLink({
+  cta,
+  className,
+  trailingArrow,
+}: {
+  cta: CtaConfig;
+  className: string;
+  trailingArrow?: boolean;
+}) {
+  const labelNode = trailingArrow ? <>{cta.label} ↗</> : cta.label;
+  if (cta.external || isProtocolLink(cta.href)) {
+    return (
+      <a
+        href={cta.href}
+        target={cta.external ? "_blank" : undefined}
+        rel={cta.external ? "noopener noreferrer" : undefined}
+        className={className}
+      >
+        {labelNode}
+      </a>
+    );
+  }
+  return (
+    <Link href={cta.href} className={className}>
+      {labelNode}
+    </Link>
   );
 }
 

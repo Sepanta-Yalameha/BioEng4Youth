@@ -61,7 +61,7 @@ export default function PastEventsGrid() {
               </span>
             </div>
 
-            {/* Body — 60/40 split */}
+            {/* Body - 60/40 split */}
             <div className="grid lg:grid-cols-[3fr_2fr] divide-y lg:divide-y-0 lg:divide-x divide-rule">
               {/* Left */}
               <div className="px-8 sm:px-10 py-10">
@@ -76,7 +76,7 @@ export default function PastEventsGrid() {
 
                 <p className="text-muted text-[15px] leading-loose mb-8 max-w-lg">
                   Participants tackled a critical question in global maternal
-                  health — bridging engineering innovation with real-world
+                  health - bridging engineering innovation with real-world
                   clinical needs in rural, underserved communities.
                 </p>
 
