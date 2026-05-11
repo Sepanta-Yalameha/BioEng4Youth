@@ -24,6 +24,7 @@ const ENTRY_UNIVERSITY =
 const FORM_RESPONSE_URL = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
 
 const OTHER_OPTION = "Other";
+const HIGH_SCHOOL_OPTION = "High School";
 
 const UNIVERSITY_OPTIONS = [
   "McMaster",
@@ -32,6 +33,7 @@ const UNIVERSITY_OPTIONS = [
   "Western",
   "Queen's",
   "Toronto Metropolitan",
+  HIGH_SCHOOL_OPTION,
   OTHER_OPTION,
 ] as const;
 
@@ -224,10 +226,10 @@ export default function InterestFormScroll() {
           />
 
           <Field
-            label="Program of Study"
+            label="Program of Study / Field of Interest"
             id="program"
             type="text"
-            placeholder="e.g. Biomedical Engineering"
+            placeholder="e.g. Biomedical Engineering, Biology"
             value={formData.program}
             onChange={handleChange("program")}
             focused={focused === "program"}
@@ -243,7 +245,7 @@ export default function InterestFormScroll() {
                 className="block text-[9px] tracking-[0.4em] uppercase"
                 style={{ fontFamily: "var(--font-mono)", color: "#6b7280" }}
               >
-                University
+                School
               </label>
               {errors.university && (
                 <span
@@ -276,7 +278,7 @@ export default function InterestFormScroll() {
               onBlur={() => setFocused(null)}
             >
               <option value="" style={{ color: "#6b7280", background: "#060810" }}>
-                Select university
+                Select school
               </option>
               {UNIVERSITY_OPTIONS.map((u) => (
                 <option key={u} value={u} style={{ color: "#e8e4dc", background: "#060810" }}>
@@ -287,10 +289,10 @@ export default function InterestFormScroll() {
             {formData.university === OTHER_OPTION && (
               <div className="mt-3">
                 <Field
-                  label="Specify university"
+                  label="Specify school"
                   id="universityOther"
                   type="text"
-                  placeholder="University name"
+                  placeholder="School name"
                   value={formData.universityOther}
                   onChange={handleChange("universityOther")}
                   focused={focused === "universityOther"}
