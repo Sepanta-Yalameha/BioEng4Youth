@@ -27,6 +27,16 @@
   --rule: rgba(11, 15, 24, 0.10);
   --muted: rgba(11, 15, 24, 0.60);
   --muted-soft: rgba(11, 15, 24, 0.40);
+
+  /* Phase-overlay card on the scroll experience. Softened on mobile so the
+     canvas frames bleed through the about / details panels. */
+  --phase-card-bg: rgba(4, 5, 14, 0.92);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --phase-card-bg: rgba(4, 5, 14, 0.74);
+  }
 }
 
 /* Scroll progress bar (managed inline by ScrollExperience) */

@@ -20,10 +20,10 @@ const PHASES_DESKTOP: readonly Phase[] = [
 ];
 
 const PHASES_MOBILE: readonly Phase[] = [
-  { id: "hero",    start: 0.00, end: 0.12 },
-  { id: "about",   start: 0.24, end: 0.36 },
-  { id: "details", start: 0.50, end: 0.62 },
-  { id: "form",    start: 0.78, end: 1.00 },
+  { id: "hero",    start: 0.00, end: 0.08 },
+  { id: "about",   start: 0.26, end: 0.34 },
+  { id: "details", start: 0.52, end: 0.60 },
+  { id: "form",    start: 0.80, end: 1.00 },
 ];
 
 const MOBILE_BREAKPOINT = 768;

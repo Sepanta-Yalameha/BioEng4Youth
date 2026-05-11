@@ -4,7 +4,7 @@ export default function AboutPhase() {
       <div
         className="ml-[8vw] max-w-[480px] p-10"
         style={{
-          background: "rgba(4, 5, 14, 0.92)",
+          background: "var(--phase-card-bg)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           border: "1px solid rgba(255,255,255,0.18)",
