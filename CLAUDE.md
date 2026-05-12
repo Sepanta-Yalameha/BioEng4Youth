@@ -20,7 +20,7 @@ npm run build    # production build
 npm run lint     # next lint
 ```
 
-There's no test runner. For visual verification use the auto-loaded **`playwright-cli`** skill (e.g. `playwright-cli open http://localhost:3000`). `screenshot.mjs` is a Puppeteer one-shot that writes a full-page PNG to `temporary screenshots/`.
+There's no test runner. For visual verification use the auto-loaded **`playwright-cli`** skill (e.g. `playwright-cli open http://localhost:3000`). `screenshot.mjs` is a Puppeteer one-shot that writes a full-page PNG to `temporary screenshots/`; `screenshot-mobile.mjs` is the same thing at a 375×812 mobile viewport for spotting responsive regressions.
 
 ## Scroll experience (the home route)
 

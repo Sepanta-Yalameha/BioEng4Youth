@@ -143,7 +143,7 @@ export default function SponsorsPage() {
                 >
                   {r.title}
                 </h3>
-                <p className="text-muted text-[15px] leading-relaxed sm:col-start-3">
+                <p className="text-muted text-[15px] leading-relaxed col-start-2 sm:col-start-3">
                   {r.desc}
                 </p>
               </div>
