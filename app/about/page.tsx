@@ -60,7 +60,7 @@ const tier1: Member[] = [
 
 const tier2: Member[] = [
   { name: "Krish", role: "Director of Operations" },
-  { name: "Sepanta", role: "Director of Operations" },
+  { name: "Sepanta", role: "Director of Operations", photo: "/team/Sepanta.jpg" },
   { name: "Avishi", role: "Chapter Coordinator", photo: "/team/Avishi.JPG" },
 ];
 

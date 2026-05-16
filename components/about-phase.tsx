@@ -27,7 +27,7 @@ export default function AboutPhase() {
           }}
         >
           One case.{" "}
-          <span style={{ color: "#00e5cc" }}>Two streams.</span>
+          <span style={{ color: "#00e5cc" }}>Three streams.</span>
           <br />
           Unlimited impact.
         </h2>
@@ -41,7 +41,21 @@ export default function AboutPhase() {
           no prior experience required, just curiosity and drive.
         </p>
 
-        <div className="mt-8 w-16 h-px" style={{ background: "#00e5cc" }} />
+        <div
+          className="mt-8 pt-6 border-t flex flex-wrap gap-x-5 gap-y-2"
+          style={{
+            borderColor: "rgba(0, 229, 204, 0.25)",
+            fontFamily: "var(--font-mono)",
+            fontSize: "10px",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "#00e5cc",
+          }}
+        >
+          <span>Diagnostics &amp; Imaging</span>
+          <span>Genetic Engineering</span>
+          <span>Wearable Devices</span>
+        </div>
       </div>
     </div>
   );
