@@ -51,15 +51,25 @@ const values = [
   },
 ];
 
-type Member = { name: string; role?: string; photo?: string };
+type Member = {
+  name: string;
+  role?: string;
+  photo?: string;
+  photoClassName?: string;
+};
 
 const tier1: Member[] = [
-  { name: "Jiya", role: "Co-President" },
-  { name: "Ahyan", role: "Co-President" },
+  { name: "Jiya", role: "Co-President", photo: "/team/Jiya.jpeg" },
+  { name: "Ahyan", role: "Co-President", photo: "/team/Ahyan.png" },
 ];
 
 const tier2: Member[] = [
-  { name: "Krish", role: "Director of Operations" },
+  {
+    name: "Krish",
+    role: "Director of Operations",
+    photo: "/team/Krish.jpg",
+    photoClassName: "scale-110 origin-bottom",
+  },
   { name: "Sepanta", role: "Director of Operations", photo: "/team/Sepanta.jpg" },
   { name: "Avishi", role: "Chapter Coordinator", photo: "/team/Avishi.JPG" },
 ];
@@ -239,6 +249,7 @@ export default function AboutPage() {
                 name={m.name}
                 role={m.role}
                 photo={m.photo}
+                photoClassName={m.photoClassName}
                 size="lg"
               />
             ))}
@@ -252,6 +263,7 @@ export default function AboutPage() {
                 name={m.name}
                 role={m.role}
                 photo={m.photo}
+                photoClassName={m.photoClassName}
                 size="md"
               />
             ))}
@@ -272,6 +284,7 @@ export default function AboutPage() {
                       key={m.name}
                       name={m.name}
                       photo={m.photo}
+                      photoClassName={m.photoClassName}
                       size="sm"
                     />
                   ))}
@@ -341,11 +354,13 @@ function TeamCard({
   name,
   role,
   photo,
+  photoClassName,
   size = "sm",
 }: {
   name: string;
   role?: string;
   photo?: string;
+  photoClassName?: string;
   size?: "lg" | "md" | "sm";
 }) {
   const dims =
@@ -367,7 +382,7 @@ function TeamCard({
             alt={name}
             width={pixelSize}
             height={pixelSize}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover ${photoClassName ?? ""}`}
           />
         </div>
       ) : (
