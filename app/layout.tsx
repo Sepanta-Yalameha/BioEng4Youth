@@ -28,6 +28,18 @@ export const metadata: Metadata = {
   title: "BioHacks - BioEng4Youth",
   description:
     "BioEng4Youth's bioengineering hackathon at McMaster University. Apply your science or engineering knowledge to a real neurological health challenge.",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
+  },
+  appleWebApp: {
+    title: "BioHacks",
+  },
   openGraph: {
     title: "BioHacks by BioEng4Youth",
     description: "Where science meets engineering. One neuro case. Infinite solutions.",
