@@ -52,6 +52,8 @@ interface CtaConfig {
   href: string;
   /** Render as a plain anchor with target="_blank" instead of a Next Link. Use for static assets / external URLs. */
   external?: boolean;
+  /** Render as a download anchor (`<a download>`). Use for same-origin static files (e.g. the sponsorship PDF). Takes precedence over `external`. */
+  download?: boolean;
 }
 
 // Next.js `<Link>` is for in-app navigation and silently breaks `mailto:` and
@@ -159,6 +161,13 @@ function CtaLink({
   trailingArrow?: boolean;
 }) {
   const labelNode = trailingArrow ? <>{cta.label} ↗</> : cta.label;
+  if (cta.download) {
+    return (
+      <a href={cta.href} download className={className}>
+        {labelNode}
+      </a>
+    );
+  }
   if (cta.external || isProtocolLink(cta.href)) {
     return (
       <a
