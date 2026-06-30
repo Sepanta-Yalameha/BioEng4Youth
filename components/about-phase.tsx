@@ -1,8 +1,8 @@
 export default function AboutPhase() {
   return (
-    <div className="w-full h-full flex items-center">
+    <div className="w-full h-full flex items-center px-4 md:px-0">
       <div
-        className="ml-[8vw] max-w-[480px] p-10"
+        className="w-full md:w-auto max-w-[480px] mx-auto md:mx-0 md:ml-[8vw] p-7 md:p-10"
         style={{
           background: "var(--phase-card-bg)",
           backdropFilter: "blur(24px)",
