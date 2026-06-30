@@ -9,40 +9,105 @@ import DetailsPhase from "@/components/details-phase";
 import InterestFormScroll from "@/components/interest-form-scroll";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Snap-breakpoint mobile experience (test3).
+// Mobile "deck" experience (test3, revised).
 //
-// Each phase is a full-screen scroll-snap section, so a small swipe snaps to the
-// next breakpoint instead of scrubbing the animation 1:1 with the finger (which
-// looked weird). The brain animation is NOT tied to the drag — it eases toward
-// the active section's target frame, so it transitions smoothly *between*
-// breakpoints. Mobile only; desktop keeps the existing experience.
+// Each phase is a centered card that stays put — a swipe snaps to the next one
+// and the cards crossfade IN PLACE (no sliding), while the brain animation eases
+// between hand-picked frames. The frames are spaced across the clip's actual
+// motion (brain → neural network → zoom-in → close cluster) so every step has
+// visible movement. Mobile only; desktop keeps the existing experience.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const PHASE_IDS = ["hero", "about", "details", "form"] as const;
-// The frame each section settles on (brain → neurons across the clip).
-const SECTION_FRAMES = [0, 48, 96, TOTAL_FRAMES - 1];
-
-const sectionStyle: React.CSSProperties = {
-  height: "100svh",
-  scrollSnapAlign: "start",
-  scrollSnapStop: "always",
-  position: "relative",
-  zIndex: 5,
-};
+// Hand-picked frames: brain head → wide neuron network → zooming in → cluster.
+const PHASE_FRAMES = [0, 40, 56, 72];
+const COUNT = PHASE_IDS.length;
+const SWIPE_THRESHOLD = 46; // px of vertical drag to step to the next card
 
 export default function MobileSnapExperience({ store }: { store: FrameStore }) {
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
 
+  const go = (next: number) => {
+    const clamped = Math.max(0, Math.min(COUNT - 1, next));
+    if (clamped === activeRef.current) return;
+    activeRef.current = clamped;
+    setActive(clamped);
+    const bar = document.getElementById("scroll-bar");
+    if (bar) bar.style.width = `${(clamped / (COUNT - 1)) * 100}%`;
+  };
+
+  // Gesture: a swipe (or wheel) steps one card at a time. Taps pass through, so
+  // the form stays interactive.
   useEffect(() => {
-    const scroller = scrollerRef.current!;
+    let startY = 0;
+    let engaged = false;
+    let stepped = false;
+    const onStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+      engaged = true;
+      stepped = false;
+    };
+    const onMove = (e: TouchEvent) => {
+      if (!engaged) return;
+      e.preventDefault();
+      if (stepped) return;
+      const dy = startY - e.touches[0].clientY;
+      if (Math.abs(dy) >= SWIPE_THRESHOLD) {
+        go(activeRef.current + (dy > 0 ? 1 : -1));
+        stepped = true;
+      }
+    };
+    const onEnd = () => {
+      engaged = false;
+    };
+
+    let wheelLock = false;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (wheelLock || Math.abs(e.deltaY) < 6) return;
+      go(activeRef.current + (e.deltaY > 0 ? 1 : -1));
+      wheelLock = true;
+      setTimeout(() => {
+        wheelLock = false;
+      }, 650);
+    };
+
+    window.addEventListener("touchstart", onStart, { passive: true });
+    window.addEventListener("touchmove", onMove, { passive: false });
+    window.addEventListener("touchend", onEnd, { passive: true });
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      window.removeEventListener("touchstart", onStart);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onEnd);
+      window.removeEventListener("wheel", onWheel);
+    };
+  }, []);
+
+  // Navbar "Register Interest" / #hash → jump to that card.
+  useEffect(() => {
+    const jump = (id: string) => {
+      const idx = (PHASE_IDS as readonly string[]).indexOf(id);
+      if (idx >= 0) go(idx);
+    };
+    const hash = window.location.hash.replace("#", "");
+    if (hash) setTimeout(() => jump(hash), 150);
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (detail) jump(detail);
+    };
+    window.addEventListener("biohacks:jumpToPhase", handler);
+    return () => window.removeEventListener("biohacks:jumpToPhase", handler);
+  }, []);
+
+  // Canvas: ease the brain toward the active card's target frame.
+  useEffect(() => {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d")!;
     let drawnImg: Frame | null = null;
     let currentFrame = 0;
-    let targetIndex = 0;
-    let activeIndex = 0;
     let raf: number;
 
     const resize = () => {
@@ -55,7 +120,6 @@ export default function MobileSnapExperience({ store }: { store: FrameStore }) {
       ctx.imageSmoothingQuality = "high";
       drawnImg = null;
     };
-
     const drawCover = (img: Frame) => {
       const iw = img instanceof HTMLImageElement ? img.naturalWidth : img.width;
       const ih = img instanceof HTMLImageElement ? img.naturalHeight : img.height;
@@ -70,26 +134,10 @@ export default function MobileSnapExperience({ store }: { store: FrameStore }) {
     resize();
     window.addEventListener("resize", resize);
 
-    const onScroll = () => {
-      const idx = Math.max(
-        0,
-        Math.min(PHASE_IDS.length - 1, Math.round(scroller.scrollTop / scroller.clientHeight))
-      );
-      targetIndex = idx;
-      if (idx !== activeIndex) {
-        activeIndex = idx;
-        setActive(idx);
-      }
-      const max = scroller.scrollHeight - scroller.clientHeight;
-      const bar = document.getElementById("scroll-bar");
-      if (bar) bar.style.width = `${max > 0 ? (scroller.scrollTop / max) * 100 : 0}%`;
-    };
-    scroller.addEventListener("scroll", onScroll, { passive: true });
-
     const tick = () => {
-      const target = SECTION_FRAMES[targetIndex];
+      const target = PHASE_FRAMES[activeRef.current];
       const dir = target >= currentFrame ? 1 : -1;
-      currentFrame += (target - currentFrame) * 0.1;
+      currentFrame += (target - currentFrame) * 0.09;
       if (Math.abs(target - currentFrame) < 0.25) currentFrame = target;
       const frameInt = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(currentFrame)));
       const img = store.requestFrame(frameInt, dir);
@@ -100,68 +148,54 @@ export default function MobileSnapExperience({ store }: { store: FrameStore }) {
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
-      scroller.removeEventListener("scroll", onScroll);
     };
   }, [store]);
 
-  // Navbar "Register Interest" / #hash → snap to that section.
-  useEffect(() => {
-    const jump = (id: string) => {
-      const idx = (PHASE_IDS as readonly string[]).indexOf(id);
-      const scroller = scrollerRef.current;
-      if (idx < 0 || !scroller) return;
-      scroller.scrollTo({ top: idx * scroller.clientHeight, behavior: "smooth" });
-    };
-    const hash = window.location.hash.replace("#", "");
-    if (hash) setTimeout(() => jump(hash), 150);
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent<string>).detail;
-      if (detail) jump(detail);
-    };
-    window.addEventListener("biohacks:jumpToPhase", handler);
-    return () => window.removeEventListener("biohacks:jumpToPhase", handler);
-  }, []);
-
   return (
-    <>
+    <div style={{ position: "fixed", inset: 0, background: "#060810", overflow: "hidden" }}>
       {/* Scroll progress bar */}
       <div
         id="scroll-bar"
         style={{ position: "fixed", top: 0, left: 0, height: "1.5px", width: "0%", background: "#00e5cc", zIndex: 60 }}
       />
 
-      {/* Fixed brain canvas + tint/vignette behind the snapping sections */}
-      <canvas ref={canvasRef} style={{ position: "fixed", top: 0, left: 0, zIndex: 0, background: "#060810" }} />
-      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", background: "rgba(4,5,12,0.45)" }} />
+      {/* Brain canvas + tint/vignette */}
+      <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, zIndex: 0 }} />
+      <div style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none", background: "rgba(4,5,12,0.45)" }} />
       <div
         style={{
-          position: "fixed", inset: 0, zIndex: 2, pointerEvents: "none",
+          position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
           background: "radial-gradient(ellipse 78% 72% at 50% 50%, transparent 18%, rgba(4,5,12,0.65) 70%, rgba(4,5,12,0.96) 100%)",
         }}
       />
 
-      {/* Snap scroller — transparent, holds the breakpoint sections */}
-      <div
-        ref={scrollerRef}
-        style={{
-          position: "fixed", inset: 0, zIndex: 5, overflowY: "scroll", overflowX: "hidden",
-          scrollSnapType: "y mandatory", WebkitOverflowScrolling: "touch",
-        }}
-      >
-        <section style={sectionStyle}><HeroPhase /></section>
-        <section style={sectionStyle}><AboutPhase /></section>
-        <section style={sectionStyle}><DetailsPhase /></section>
-        <section style={sectionStyle}><InterestFormScroll /></section>
+      {/* Centered cards — crossfade in place, no sliding */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 20 }}>
+        {[<HeroPhase key="h" />, <AboutPhase key="a" />, <DetailsPhase key="d" />, <InterestFormScroll key="f" />].map(
+          (node, i) => (
+            <div
+              key={PHASE_IDS[i]}
+              className="absolute inset-0"
+              style={{
+                opacity: active === i ? 1 : 0,
+                pointerEvents: active === i ? "auto" : "none",
+                transition: "opacity 0.5s ease",
+              }}
+              aria-hidden={active !== i}
+            >
+              {node}
+            </div>
+          )
+        )}
       </div>
 
-      {/* Phase dots */}
+      {/* Phase dots — fixed, centered */}
       <div
         style={{
-          position: "fixed", bottom: "24px", left: "50%", transform: "translateX(-50%)",
+          position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)",
           zIndex: 30, display: "flex", alignItems: "center", gap: "8px", pointerEvents: "none",
         }}
       >
@@ -178,6 +212,6 @@ export default function MobileSnapExperience({ store }: { store: FrameStore }) {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
