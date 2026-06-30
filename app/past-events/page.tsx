@@ -26,7 +26,7 @@ export default function PastEventsPage() {
       </div>
 
       <PageHero
-        eyebrow="01 / Track Record"
+        eyebrow="Track Record"
         headline={
           <>
             Events that{" "}

@@ -26,9 +26,6 @@ export default function PastEventsGrid() {
     <section ref={ref} className="py-20 bg-paper">
       <div className="max-w-6xl mx-auto px-6 sm:px-8">
         <div className="flex items-center gap-4 mb-12">
-          <span className="bg-neuro-teal-deep text-ink px-2 py-0.5 font-mono text-[9px] tracking-[0.15em] uppercase">
-            02
-          </span>
           <h2 className="font-display font-bold text-2xl sm:text-3xl tracking-[-0.015em] text-ink">
             Featured event
           </h2>

@@ -81,17 +81,17 @@ const reasons = [
   {
     num: "01",
     title: "Reach motivated students",
-    desc: "Connect directly with students from top universities - in engineering, science, and health across McMaster and visiting institutions, at every year of study.",
+    desc: "Connect directly with Health Sciences, Engineering, and Business students from McMaster and visiting universities, at every year of study and already building toward careers in medicine, biotech, and engineering.",
   },
   {
     num: "02",
-    title: "Build your brand",
-    desc: "Featured social posts, logo placement, and event branding put you in front of the next generation of bioengineering and biotech talent before they enter the workforce.",
+    title: "Put your brand in front of them",
+    desc: "Featured social posts, prominent logo placement, and event branding keep you in front of the next generation of clinicians, engineers, and biotech founders, on our channels through the lead-up and on-site all weekend.",
   },
   {
     num: "03",
-    title: "Test your tools at scale",
-    desc: "Hand participants your dataset, beta API, or platform and watch hundreds of motivated builders put it through its paces over a weekend.",
+    title: "Back patient-centred work",
+    desc: "Every team spends the weekend on a real, patient-centred case. Your support goes straight toward work aimed at improving how people are diagnosed, treated, and cared for.",
   },
 ];
 
@@ -176,16 +176,16 @@ function MatrixCell({ cell }: { cell: Cell }) {
 
 const partnerships = [
   {
+    title: "Put your name on a track or prize",
+    desc: "Lend your name to one of our competition tracks, like \"The [Company] Diagnostics Track,\" or fund a prize awarded in your name to a winning team. It's the most direct way to tie your brand to the work students will remember.",
+  },
+  {
     title: "Custom challenge stream",
-    desc: "Platinum partners can provide a proprietary dataset or a beta API and frame a problem around it. Hackers - including life-sci and science students who may be picking up code for the first time - build solutions on top of it. You get focused QA, a feedback corpus, and a real signal on how non-experts interact with your product.",
+    desc: "Platinum partners can hand teams a proprietary dataset or a beta API and frame a problem around it. Hackers, including science and health students picking up code for the first time, build solutions on top of it. You get focused QA, a feedback corpus, and real signal on how non-experts use your product.",
   },
   {
-    title: "1:1 recruiter resume reviews",
-    desc: "From Gold up, send recruiters to run 1:1 resume critiques on the day of the event. Participants meet real industry recruiters; you build a top-of-funnel pipeline into the bioengineering and biotech roles you're hiring for. We'll market this hard - it drives serious sign-up traffic.",
-  },
-  {
-    title: "Speakers, judges, workshops",
-    desc: "Beyond the tier defaults, Silver and up can co-design how they show up: technical workshops, fireside chats, judging panels, or a Platinum keynote. Tell us what you'd want - add-ons are available upon inquiry and we'll build the slot in.",
+    title: "Judges, mentors, and workshops",
+    desc: "Send judges to evaluate the final pitches, mentors to coach teams through the weekend, or run a technical workshop or fireside chat. Tell us what you'd like to share and we'll build the slot around it. Add-ons are available on inquiry.",
   },
 ];
 
@@ -206,20 +206,17 @@ export default function SponsorsPage() {
       </div>
 
       <PageHero
-        eyebrow="01 / Sponsorship"
+        eyebrow="Sponsorship"
         headline={
           <>
             Partner with{" "}
             <span className="text-neuro-teal-deep">BioHacks</span>.
           </>
         }
-        lede="Support McMaster's first bioengineering hackathon and connect with a community of driven, interdisciplinary students. Funding tiers start at $500, our Platinum partnership is fully custom, and we're happy to design something around exactly what you want to get out of the event."
+        lede="BioHacks brings Health Sciences, Engineering, and Business students together for two days of building around one real, patient-centred case. Sponsoring puts your brand in front of the people who will shape medicine and biotech next, and backs work aimed squarely at improving patient lives. Tiers start at $500, Platinum is fully custom, and we'll gladly build a partnership around exactly what you want from the weekend."
         primaryCta={{
           label: "Get in touch",
-          href: composeEmail(
-            "BioHacks sponsorship inquiry",
-            "Hi BioEng4Youth team,\n\nI'm reaching out from [company] about sponsoring BioHacks. We're interested in:\n\n[ ] A specific tier ([Bronze / Silver / Gold / Platinum])\n[ ] A custom partnership (challenge stream / recruiter access / workshop)\n[ ] Just learning more for now\n\nHappy to set up a quick call.\n\nThanks,\n[your name]"
-          ),
+          href: composeEmail("BioHacks sponsorship inquiry"),
           external: true,
         }}
         secondaryCta={{
@@ -236,12 +233,18 @@ export default function SponsorsPage() {
             Track record
           </span>
           <p className="text-[14px] leading-relaxed text-muted">
-            Our International Research Case Competition 2025 drew{" "}
-            <span className="text-ink font-medium">100+ submissions</span> from
-            around the world, with the{" "}
-            <span className="text-ink font-medium">
-              top 8 published on URNCST
-            </span>
+            Our 2025 International Research Case Competition, on reimagining
+            ultrasound for maternal health in rural communities, drew{" "}
+            <span className="text-ink font-medium">100+ submissions</span>{" "}
+            worldwide, with the{" "}
+            <a
+              href="https://doi.org/10.26685/urncst.1043"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ink font-medium underline underline-offset-2 decoration-neuro-teal-deep/60 hover:decoration-ink transition-colors"
+            >
+              top 8 published in URNCST
+            </a>
             .
           </p>
         </div>
@@ -250,7 +253,7 @@ export default function SponsorsPage() {
       {/* 02 - Why sponsor */}
       <section className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
-          <SectionHeader index="02" title="Why sponsor" />
+          <SectionHeader title="Why sponsor" />
 
           <div className="divide-y divide-rule border-y border-rule">
             {reasons.map((r) => (
@@ -282,7 +285,7 @@ export default function SponsorsPage() {
       <section className="bg-paper-2">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
-            <SectionHeader index="03" title="Sponsorship tiers" />
+            <SectionHeader title="Sponsorship tiers" />
             <p className="text-muted-soft text-sm font-mono max-w-xs sm:text-right">
               Four tiers, plus space to design custom partnerships.
             </p>
@@ -331,10 +334,7 @@ export default function SponsorsPage() {
                 </ul>
 
                 <a
-                  href={composeEmail(
-                    `BioHacks sponsorship - ${tier.name}`,
-                    `Hi BioEng4Youth team,\n\nWe'd like to discuss the ${tier.name} sponsorship for BioHacks. Could we set up a call to walk through the perks and confirm details?\n\nThanks,\n[your name]\n[company]`
-                  )}
+                  href={composeEmail(`BioHacks sponsorship - ${tier.name}`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`block text-center py-3 text-sm font-display font-semibold transition-all rounded-md border ${
@@ -357,7 +357,7 @@ export default function SponsorsPage() {
       <section className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
-            <SectionHeader index="04" title="Compare every perk" />
+            <SectionHeader title="Compare every perk" />
             <p className="text-muted-soft text-sm font-mono max-w-xs sm:text-right">
               The full breakdown, tier by tier.
             </p>
@@ -468,7 +468,7 @@ export default function SponsorsPage() {
       {/* 05 - Custom partnerships */}
       <section className="bg-paper-2">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
-          <SectionHeader index="05" title="Beyond the tiers" />
+          <SectionHeader title="Beyond the tiers" />
           <p className="text-[15px] leading-[1.7] text-muted max-w-3xl mb-14">
             The tiers above cover most partnerships. If you have something more
             specific in mind - a challenge stream on your dataset, a recruiter
@@ -509,16 +509,14 @@ export default function SponsorsPage() {
             Let&apos;s build BioHacks together.
           </h3>
           <p className="text-white/55 text-[15px] leading-relaxed mb-8 max-w-xl mx-auto">
-            Reach out and we&apos;ll walk you through the tiers, custom
-            partnership options, and where your support fits the event best - or
+            Reach out and we&apos;ll shape a partnership around your goals: a
+            named track, a custom challenge, judges and mentors, or a speaking
+            slot. We&apos;ll show you exactly where your support lands, or you can
             grab the full package to share with your team.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
-              href={composeEmail(
-                "BioHacks sponsorship inquiry",
-                "Hi BioEng4Youth team,\n\nI'm interested in becoming a BioHacks sponsor. Could we set up a quick call to walk through the options?\n\nThanks,\n[your name]\n[company]"
-              )}
+              href={composeEmail("BioHacks sponsorship inquiry")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-neuro-teal text-ink font-display font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all rounded-md"

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail } from "lucide-react";
+import { Mail, Instagram } from "lucide-react";
 import { composeEmail, SUPPORT_EMAIL } from "@/lib/email";
+import { INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/social";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -49,15 +50,26 @@ export default function Footer() {
             <p className="text-white/45 text-sm leading-relaxed max-w-xs">
               McMaster&apos;s bioengineering hackathon. Where science meets engineering.
             </p>
-            <a
-              href={composeEmail("Hello from the BioHacks site")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-6 text-neuro-teal text-sm font-medium hover:text-white transition-colors"
-            >
-              <Mail size={14} />
-              {SUPPORT_EMAIL}
-            </a>
+            <div className="mt-6 flex flex-col gap-3">
+              <a
+                href={composeEmail("Hello from the BioHacks site")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-neuro-teal text-sm font-medium hover:text-white transition-colors"
+              >
+                <Mail size={14} />
+                {SUPPORT_EMAIL}
+              </a>
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-neuro-teal text-sm font-medium hover:text-white transition-colors"
+              >
+                <Instagram size={14} />
+                {INSTAGRAM_HANDLE}
+              </a>
+            </div>
           </div>
 
           {/* Nav */}

@@ -20,15 +20,15 @@ npm run build    # production build
 npm run lint     # next lint
 ```
 
-There's no test runner. For visual verification use the auto-loaded **`playwright-cli`** skill (e.g. `playwright-cli open http://localhost:3000`). `screenshot.mjs` is a Puppeteer one-shot that writes a full-page PNG to `temporary screenshots/`; `screenshot-mobile.mjs` is the same thing at a 375×812 mobile viewport for spotting responsive regressions.
+There's no test runner. For visual verification use the auto-loaded **`playwright-cli`** skill (e.g. `playwright-cli open http://localhost:3000`).
 
 ## Scroll experience (the home route)
 
 Mounting:
 
 ```
-app/page.tsx → ScrollLanding
-  ├── LoadingScreen          # preloads 145 frames, then unmounts
+app/page.tsx → ScrollLanding              # useFrameLoader: progressive decode + reveal
+  ├── LoadingScreen          # logo + progress bar, fades out once priority frames ready
   └── ScrollExperience       # canvas + 4 phase overlays + useScrollAnimation
 ```
 
@@ -37,12 +37,12 @@ Read `hooks/use-scroll-animation.ts` before touching scroll behaviour:
 - The hook attaches non-passive `wheel` + `touchmove` listeners with `e.preventDefault()` and accumulates a virtual scroll position over `window.innerHeight * 4`. **Native scroll never happens on `/`** — `scroll-into-view` and anchor links don't work here.
 - Progress (`0..1`) is target-driven, LERPed every frame at `0.08`. `progress * 145 → currentFrame`. The canvas RAF only redraws when the chosen frame changes.
 - `PHASES` splits progress into 4 named windows (`hero`, `about`, `details`, `form`); `PhaseOverlay` crossfades on `activePhase`.
-- Frames live at `public/frames/frame-NNNN.jpg` (4-digit padded, `0001`–`0145`). `LoadingScreen` loads in batches of 20.
+- **Frame loading lives in `hooks/use-frame-loader.ts`** (a *windowed decoder*), not LoadingScreen. It downloads every frame's WebP *blob* progressively (chasing the scroll head first), but only keeps a rolling window of ~40 frames *decoded* (`createImageBitmap`, off-thread) around the current position — prefetching `AHEAD` in the scroll direction and `.close()`-ing frames that fall outside. So memory stays bounded (~600 MB desktop / ~150 MB mobile) even though desktop frames are 2560×1440. `ScrollExperience` calls `store.requestFrame(frame, dir)` every RAF tick and draws the nearest decoded frame, so the canvas never blanks (even on a far jump to the form phase). Frames are **responsive WebP extracted from the 4K master**: desktop `public/frames/frame-NNNN.webp` (2560×1440), mobile `public/frames-sm/frame-NNNN.webp` (1280×720, every-other frame loaded). The 4K source is `media-source/new_4k.mp4` (outside `public/`, not deployed); regenerate the WebP with `node scripts/extract-frames.mjs` (Chromium via puppeteer, self-contained — no ffmpeg/sharp/dev-server needed).
 - **Cross-route deep-linking**: navbar's "Register Interest" links to `/#form` and dispatches `biohacks:jumpToPhase` (`detail: "form"`). The hook reads `location.hash` on mount and listens for the custom event during the session.
 
 ## Secondary pages
 
-All four club pages compose `<Navbar mode="club">` → `pt-20` + `TickerStrip` → `PageHero` → `SectionDivider` → numbered sections (`SectionHeader` + content) → optional dark closing band → `<Footer>`. `app/about/page.tsx` is the canonical example.
+All four club pages compose `<Navbar mode="club">` → `pt-20` + `TickerStrip` → `PageHero` → `SectionDivider` → sections (`SectionHeader` title + content) → optional dark closing band → `<Footer>`. `app/about/page.tsx` is the canonical example. `PageHero` eyebrows and `SectionHeader` are plain/borderless by design — no numbered pills or chips (the user considers those "AI-looking").
 
 `components/page-chassis.tsx` exports the four sanctioned primitives — use these, don't reinvent:
 
@@ -113,8 +113,8 @@ Two Google-side settings the form depends on:
 - `components/` — page sections (`<phase>-phase.tsx`, `interest-form-scroll.tsx`, `loading-screen.tsx`, `navbar.tsx`, `footer.tsx`, `page-chassis.tsx`, `research-articles.tsx`, `past-events-grid.tsx`, etc.). `components/ui/accordion.tsx` is the only shadcn primitive in use.
 - `hooks/` — `use-scroll-animation.ts` (home-page brain), `use-in-view.ts` (one-shot IntersectionObserver reveal).
 - `lib/utils.ts` — `cn()` only.
-- `public/frames/` — 145 padded JPGs driving the scroll. `public/team/` — roster headshots. `public/research/` — article source files.
-- `public/be4y-logo.png`, `public/Better.mp4`, `public/bioeng4youth-sponsorship-package.pdf`, `public/research-case-competition-abstract.pdf` — brand & content assets.
+- `public/frames/` — 145 padded `.webp` frames (2560×1440) driving the scroll. `public/frames-sm/` — 1280×720 `.webp` mobile set. `media-source/new_4k.mp4` is the 4K source (outside `public/`, not deployed); `scripts/extract-frames.mjs` regenerates both WebP sets from it. `public/team/` — roster headshots. `public/research/` — article source files.
+- `public/be4y-logo.png`, `public/bioeng4youth-sponsorship-package.pdf`, `public/research-case-competition-abstract.pdf` — brand & content assets.
 - `.env.local.example` — Google Form env vars.
 - `docs/superpowers/specs/`, `docs/superpowers/plans/` — design specs and implementation plans. Read the latest spec for any feature before changing related code.
 - `.claude/skills/playwright-cli/` — auto-loaded browser-driving skill.

@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import type { Frame, FrameStore } from "@/hooks/use-frame-loader";
 import PhaseOverlay from "@/components/phase-overlay";
 import HeroPhase from "@/components/hero-phase";
 import AboutPhase from "@/components/about-phase";
@@ -10,30 +11,37 @@ import InterestFormScroll from "@/components/interest-form-scroll";
 
 const PHASE_IDS = ["hero", "about", "details", "form"] as const;
 
-export default function ScrollExperience({ frames }: { frames: (HTMLImageElement | null)[] }) {
+export default function ScrollExperience({ store }: { store: FrameStore }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { progressRef, currentFrameRef, activePhase } = useScrollAnimation();
 
   useEffect(() => {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d")!;
-    let drawnFrame = -1;
+    let drawnImg: Frame | null = null;
+    let lastFrame = 0;
+    let lastDir = 1;
     let raf: number;
 
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      // Cap the backing-store resolution at 2× — full devicePixelRatio on a 3×
+      // phone makes every frame draw needlessly expensive for no visible gain
+      // (the source frames are 1080p), but 2× keeps the canvas sharp.
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const w = window.innerWidth;
       const h = window.innerHeight;
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       canvas.style.width = w + "px";
       canvas.style.height = h + "px";
-      drawnFrame = -1;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      drawnImg = null; // canvas resize clears it — force a redraw next tick
     };
 
-    const drawCover = (img: HTMLImageElement) => {
-      const iw = img.naturalWidth || 1920;
-      const ih = img.naturalHeight || 1080;
+    const drawCover = (img: Frame) => {
+      const iw = img instanceof HTMLImageElement ? img.naturalWidth : img.width;
+      const ih = img instanceof HTMLImageElement ? img.naturalHeight : img.height;
       const cw = canvas.width;
       const ch = canvas.height;
       const scale = Math.max(cw / iw, ch / ih);
@@ -47,10 +55,16 @@ export default function ScrollExperience({ frames }: { frames: (HTMLImageElement
 
     const tick = () => {
       const f = currentFrameRef.current;
-      if (f !== drawnFrame) {
-        const img = frames[f];
-        if (img) drawCover(img);
-        drawnFrame = f;
+      const d = f === lastFrame ? lastDir : f > lastFrame ? 1 : -1;
+      lastFrame = f;
+      lastDir = d;
+      // Ask the windowed loader for the best frame to draw now; it also
+      // schedules decodes ahead in the scroll direction. While a frame is still
+      // decoding it returns the nearest decoded one, so the canvas never blanks.
+      const img = store.requestFrame(f, d);
+      if (img && img !== drawnImg) {
+        drawCover(img);
+        drawnImg = img;
       }
       raf = requestAnimationFrame(tick);
     };
@@ -60,7 +74,7 @@ export default function ScrollExperience({ frames }: { frames: (HTMLImageElement
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
-  }, [frames, currentFrameRef, progressRef]);
+  }, [store, currentFrameRef, progressRef]);
 
   return (
     <>

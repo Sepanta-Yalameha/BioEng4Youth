@@ -95,7 +95,7 @@ const config: Config = {
         },
       },
       animation: {
-        ticker: "ticker 28s linear infinite",
+        ticker: "ticker 42s linear infinite",
         "fade-in-up": "fade-in-up 0.7s ease-out forwards",
         "fade-in": "fade-in 0.5s ease-out forwards",
         float: "float 4s ease-in-out infinite",

@@ -77,7 +77,7 @@ export function useScrollAnimation() {
       e.preventDefault();
       const dy = touchY - e.touches[0].clientY;
       touchY = e.touches[0].clientY;
-      advance(dy * 1.5);
+      advance(dy * 1.15);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });

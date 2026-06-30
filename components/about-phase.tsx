@@ -14,7 +14,7 @@ export default function AboutPhase() {
           className="text-[11px] tracking-[0.45em] uppercase mb-6"
           style={{ fontFamily: "var(--font-mono)", color: "#00e5cc" }}
         >
-          01 &nbsp;/&nbsp; What is BioHacks
+          What is BioHacks
         </div>
 
         <h2

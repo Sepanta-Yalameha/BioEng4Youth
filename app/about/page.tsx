@@ -128,7 +128,7 @@ export default function AboutPage() {
       </div>
 
       <PageHero
-        eyebrow="01 / About BioEng4Youth"
+        eyebrow="About BioEng4Youth"
         headline={
           <>
             Empowering youth
@@ -144,14 +144,10 @@ export default function AboutPage() {
           { label: "Type", value: "Student-led nonprofit" },
         ]}
         primaryCta={{
-          label: "Get Involved",
-          href: composeEmail(
-            "Getting involved with BioEng4Youth",
-            "Hi BioEng4Youth team,\n\nI'd love to learn more about getting involved. A bit about me:\n\n[your background / school / year]\n\nThanks,\n[your name]"
-          ),
+          label: "Contact us",
+          href: composeEmail("Getting involved with BioEng4Youth"),
           external: true,
         }}
-        secondaryCta={{ label: "Read mission", href: "#mission" }}
       />
 
       <SectionDivider />
@@ -159,7 +155,7 @@ export default function AboutPage() {
       {/* 02 - Mission */}
       <section id="mission" className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
-          <SectionHeader index="02" title="Our mission" />
+          <SectionHeader title="Our mission" />
           <p className="text-[15px] leading-[1.8] text-muted max-w-3xl">
             Our mission is to make biomedical, engineering, and health-related
             opportunities more accessible to youth by creating programs that
@@ -176,7 +172,7 @@ export default function AboutPage() {
       {/* 03 - Vision */}
       <section className="bg-paper-2">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
-          <SectionHeader index="03" title="Our vision" />
+          <SectionHeader title="Our vision" />
           <p className="text-[15px] leading-[1.8] text-muted max-w-3xl">
             We envision a future in which young people are empowered to
             participate actively in research, innovation, and community-driven
@@ -192,7 +188,7 @@ export default function AboutPage() {
       {/* 04 - What we do */}
       <section className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
-          <SectionHeader index="04" title="What we do" />
+          <SectionHeader title="What we do" />
           <p className="text-[15px] leading-[1.8] text-muted max-w-3xl">
             At BioEng4Youth, we develop initiatives that encourage students to
             engage with real-world scientific and healthcare issues. Our work
@@ -209,7 +205,7 @@ export default function AboutPage() {
       {/* 05 - Values */}
       <section className="bg-paper">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
-          <SectionHeader index="05" title="What drives us" />
+          <SectionHeader title="What drives us" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-rule border border-rule">
             {values.map(({ icon: Icon, title, desc }) => (
               <div
@@ -234,7 +230,7 @@ export default function AboutPage() {
       {/* 06 - Team */}
       <section className="bg-paper-2">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
-          <SectionHeader index="06" title="The team" />
+          <SectionHeader title="The team" />
           <p className="text-[15px] leading-[1.7] text-muted max-w-2xl mb-14">
             A group of student leaders and contributors passionate about
             research accessibility, science communication, youth empowerment,
@@ -331,10 +327,7 @@ export default function AboutPage() {
               interested in contributing, we&apos;d love to hear from you.
             </p>
             <a
-              href={composeEmail(
-                "Joining the BioEng4Youth team",
-                "Hi BioEng4Youth team,\n\nI'm interested in joining the team. A bit about me:\n\n[your background / school / year / what you'd like to contribute]\n\nThanks,\n[your name]"
-              )}
+              href={composeEmail("Joining the BioEng4Youth team")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-neuro-teal text-ink font-display font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all rounded-md"

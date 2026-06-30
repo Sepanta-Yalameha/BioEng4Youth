@@ -5,7 +5,7 @@ export default function HeroPhase() {
         className="text-[10px] tracking-[0.5em] uppercase mb-8"
         style={{ fontFamily: "var(--font-mono)", color: "#00e5cc" }}
       >
-        BioEng4Youth &nbsp;&mdash;&nbsp; McMaster University
+        BioEng4Youth &nbsp;&middot;&nbsp; McMaster University
       </div>
 
       <h1

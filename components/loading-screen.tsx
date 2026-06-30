@@ -1,58 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TOTAL_FRAMES } from "@/hooks/use-scroll-animation";
-
-const BATCH_SIZE = 20;
-
-function loadFrame(index: number): Promise<HTMLImageElement | null> {
-  return new Promise((resolve) => {
-    const img = new Image();
-    const n = String(index + 1).padStart(4, "0");
-    img.src = `/frames/frame-${n}.jpg`;
-    img.onload = () => resolve(img);
-    img.onerror = () => resolve(null);
-  });
-}
 
 interface Props {
-  onComplete: (frames: (HTMLImageElement | null)[]) => void;
+  /** Priority-batch progress, 0–100. */
+  progress: number;
+  /** True once the priority batch is decoded — triggers the fade-out. */
+  done: boolean;
+  /** Called after the fade-out completes so the parent can unmount the loader. */
+  onHidden: () => void;
 }
 
-export default function LoadingScreen({ onComplete }: Props) {
-  const [progress, setProgress] = useState(0);
+export default function LoadingScreen({ progress, done, onHidden }: Props) {
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function loadAll() {
-      const frames: (HTMLImageElement | null)[] = new Array(TOTAL_FRAMES).fill(null);
-
-      for (let i = 0; i < TOTAL_FRAMES; i += BATCH_SIZE) {
-        if (cancelled) return;
-        const batch: Promise<void>[] = [];
-        for (let j = i; j < Math.min(i + BATCH_SIZE, TOTAL_FRAMES); j++) {
-          const idx = j;
-          batch.push(loadFrame(idx).then((img) => { frames[idx] = img; }));
-        }
-        await Promise.all(batch);
-        if (!cancelled) setProgress(Math.round((Math.min(i + BATCH_SIZE, TOTAL_FRAMES) / TOTAL_FRAMES) * 100));
-      }
-
-      if (!cancelled) {
-        await new Promise((r) => setTimeout(r, 350));
-        if (!cancelled) {
-          setFading(true);
-          await new Promise((r) => setTimeout(r, 600));
-          if (!cancelled) onComplete(frames);
-        }
-      }
-    }
-
-    loadAll();
-    return () => { cancelled = true; };
-  }, [onComplete]);
+    if (!done) return;
+    setFading(true);
+    const t = setTimeout(onHidden, 500);
+    return () => clearTimeout(t);
+  }, [done, onHidden]);
 
   return (
     <div
@@ -60,7 +27,7 @@ export default function LoadingScreen({ onComplete }: Props) {
       style={{
         background: "#060810",
         opacity: fading ? 0 : 1,
-        transition: "opacity 0.6s ease",
+        transition: "opacity 0.5s ease",
         pointerEvents: fading ? "none" : "auto",
       }}
     >

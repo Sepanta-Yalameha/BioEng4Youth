@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { INSTAGRAM_URL } from "@/lib/social";
 
 interface NavbarProps {
   mode?: "hackathon" | "club";
@@ -86,6 +87,15 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
 
           {/* Right - CTA + mobile toggle */}
           <div className="flex items-center gap-2 shrink-0">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="BioEng4Youth on Instagram"
+              className="hidden md:flex items-center justify-center w-9 h-9 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-all"
+            >
+              <Instagram size={18} />
+            </a>
             <Link
               href="/#form"
               onClick={handleRegisterInterestClick}
@@ -129,6 +139,16 @@ export default function Navbar({ mode = "hackathon" }: NavbarProps) {
           >
             Register Interest
           </Link>
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-sans text-white/75 hover:text-white hover:bg-white/8 transition-all"
+          >
+            <Instagram size={16} />
+            Instagram
+          </a>
         </div>
       )}
     </>

@@ -27,7 +27,7 @@ export default function ResearchPage() {
       </div>
 
       <PageHero
-        eyebrow="01 / Research & Insights"
+        eyebrow="Research & Insights"
         headline={
           <>
             Biomedical

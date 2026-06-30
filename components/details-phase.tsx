@@ -14,7 +14,7 @@ export default function DetailsPhase() {
           className="text-[11px] tracking-[0.45em] uppercase mb-6"
           style={{ fontFamily: "var(--font-mono)", color: "#00e5cc" }}
         >
-          02 &nbsp;/&nbsp; The Details
+          The Details
         </div>
 
         <div className="space-y-6">

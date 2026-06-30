@@ -63,7 +63,7 @@ function isProtocolLink(href: string) {
 }
 
 interface PageHeroProps {
-  /** Mono eyebrow seal text, e.g. "01 / About BioEng4Youth" */
+  /** Plain mono kicker above the headline, e.g. "About BioEng4Youth". */
   eyebrow: string;
   /** ReactNode so callers can wrap the accented noun in `<span className="text-neuro-teal-deep">` */
   headline: React.ReactNode;
@@ -89,15 +89,12 @@ export function PageHero({
   return (
     <section className="bg-paper text-ink">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-14">
-        <div className="inline-flex items-center gap-2 border border-rule px-3 py-1.5 rounded-full">
-          <span className="w-1.5 h-1.5 rounded-full bg-neuro-teal-deep" />
-          <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-ink/80">
-            {eyebrow}
-          </span>
-        </div>
+        <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-neuro-teal-deep">
+          {eyebrow}
+        </p>
 
         <h1
-          className="font-display font-bold leading-[0.9] tracking-[-0.025em] mt-6 max-w-4xl"
+          className="font-display font-bold leading-[0.9] tracking-[-0.025em] mt-5 max-w-4xl"
           style={{ fontSize: "clamp(3rem, 7vw, 6rem)" }}
         >
           {headline}
@@ -188,27 +185,14 @@ function CtaLink({
 }
 
 // ─── Section header ────────────────────────────────────────────────────────
-// [chip] [title] ........ [chevron]
-// Used between major content sections on every secondary page.
+// Clean section title. Used between major content sections on every secondary
+// page.
 
-export function SectionHeader({
-  index,
-  title,
-}: {
-  /** Two-digit string, e.g. "02" */
-  index: string;
-  title: string;
-}) {
+export function SectionHeader({ title }: { title: string }) {
   return (
-    <div className="flex items-center gap-3 mb-6">
-      <span className="bg-neuro-teal-deep text-ink px-2 py-0.5 font-mono text-[9px] tracking-[0.15em] uppercase">
-        {index}
-      </span>
-      <h2 className="font-display font-bold text-2xl sm:text-3xl tracking-[-0.015em] text-ink">
-        {title}
-      </h2>
-      <span className="ml-auto font-display font-light text-2xl text-muted-soft">→</span>
-    </div>
+    <h2 className="font-display font-bold text-2xl sm:text-3xl tracking-[-0.015em] text-ink mb-6">
+      {title}
+    </h2>
   );
 }
 

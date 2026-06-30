@@ -138,7 +138,7 @@
      ticker. The ticker is purely decorative (aria-hidden) with slow, steady
      horizontal motion - no flashing or rapid change - so always letting it
      scroll is within the WCAG reduced-motion guidance. */
-  animation: ticker 28s linear infinite !important;
+  animation: ticker 42s linear infinite !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

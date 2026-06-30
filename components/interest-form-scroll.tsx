@@ -180,7 +180,7 @@ export default function InterestFormScroll() {
           className="text-[11px] tracking-[0.45em] uppercase mb-3"
           style={{ fontFamily: "var(--font-mono)", color: "#00e5cc" }}
         >
-          03 &nbsp;/&nbsp; Register Interest
+          Register Interest
         </div>
 
         <h2
