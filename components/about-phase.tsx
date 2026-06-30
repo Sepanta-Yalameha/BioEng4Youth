@@ -27,7 +27,7 @@ export default function AboutPhase() {
           }}
         >
           One case.{" "}
-          <span style={{ color: "#00e5cc" }}>Three streams.</span>
+          <span style={{ color: "#00e5cc" }}>Three tracks.</span>
           <br />
           Unlimited impact.
         </h2>
@@ -52,9 +52,9 @@ export default function AboutPhase() {
             color: "#00e5cc",
           }}
         >
-          <span>Diagnostics &amp; Imaging</span>
-          <span>Genetic Engineering</span>
-          <span>Wearable Devices</span>
+          <span>Detection &amp; Diagnostics</span>
+          <span>Therapeutics &amp; Delivery</span>
+          <span>Wearable Devices &amp; Quality of Life</span>
         </div>
       </div>
     </div>

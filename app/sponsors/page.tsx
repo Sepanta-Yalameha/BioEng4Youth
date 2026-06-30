@@ -177,7 +177,7 @@ function MatrixCell({ cell }: { cell: Cell }) {
 const partnerships = [
   {
     title: "Put your name on a track or prize",
-    desc: "Lend your name to one of our competition tracks, like \"The [Company] Diagnostics Track,\" or fund a prize awarded in your name to a winning team. It's the most direct way to tie your brand to the work students will remember.",
+    desc: "Lend your name to one of our competition tracks, like \"The [Company] Detection & Diagnostics Track,\" or fund a prize awarded in your name to a winning team. It's the most direct way to tie your brand to the work students will remember.",
   },
   {
     title: "Custom challenge stream",
